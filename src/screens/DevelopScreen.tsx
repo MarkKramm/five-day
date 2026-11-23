@@ -249,17 +249,26 @@ export function DevelopScreen({ day, photo, tone, fast, onComplete }: DevelopScr
             <span className="develop-hint__main">{texts.developMain}</span>
             <span className="develop-hint__sub">{texts.developSub}</span>
           </p>
-          <div className="develop-dots" aria-label={`${strokes} of ${requiredStrokes} strokes`}>
-            {Array.from({ length: TIMING.developStrokes }).map((_, index) => (
-              <span
-                key={index}
-                className={`develop-dot ${
-                  index < Math.round((strokes / requiredStrokes) * TIMING.developStrokes)
-                    ? "is-filled"
-                    : ""
-                }`}
-              />
-            ))}
+          <div className="develop-dots-wrap">
+            <div className="develop-dots" aria-label={`${strokes} of ${requiredStrokes} strokes`}>
+              {Array.from({ length: TIMING.developStrokes }).map((_, index) => (
+                <span
+                  key={index}
+                  className={`develop-dot ${
+                    index < Math.round((strokes / requiredStrokes) * TIMING.developStrokes)
+                      ? "is-filled"
+                      : ""
+                  }`}
+                />
+              ))}
+            </div>
+            {!complete && strokes > 0 && (
+              <span className="develop-ellipsis" aria-hidden="true">
+                <i />
+                <i />
+                <i />
+              </span>
+            )}
           </div>
         </div>
 

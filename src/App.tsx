@@ -80,6 +80,23 @@ export default function App() {
           (day) => !effectiveOpenDays.some((openDay) => openDay.id === day.id),
         ) ?? null;
 
+  /** One frame per day for the intro film strip, and the same data as stamps. */
+  const weekItems = useMemo(
+    () =>
+      CONFIG.days.map((day) => {
+        const progress = readDayProgress(saved, day.id);
+        const keptPhotos = day.photos.filter((photo) => progress.kept.includes(photo.rank));
+        const favorite = keptPhotos.find((photo) => photo.rank === 1) ?? keptPhotos[0];
+        return {
+          id: day.id,
+          open: effectiveOpenDays.some((openDay) => openDay.id === day.id),
+          done: progress.done,
+          thumb: favorite?.src,
+        };
+      }),
+    [saved, effectiveOpenDays],
+  );
+
   useEffect(() => {
     sound.setEnabledSilently(saved.sound);
   }, [saved.sound]);
@@ -253,6 +270,7 @@ export default function App() {
             subtitle={CONFIG.subtitle}
             note={CONFIG.introNote}
             finishedLine={CONFIG.finishedLine}
+            strip={weekItems}
             onStart={startDay}
             onOpenAlbum={openMostRecentAlbumPage}
           />
@@ -301,6 +319,7 @@ export default function App() {
         {state === "DAY_COMPLETE" && (
           <DayCompleteScreen
             day={currentDay}
+            streak={weekItems}
             onOpenAlbum={() => openAlbumFor(currentDay.id)}
           />
         )}

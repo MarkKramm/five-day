@@ -137,6 +137,17 @@ export function PrintScreen({ rank, fast, onPrinted }: PrintScreenProps) {
         </span>
         <span className="print-effects" aria-hidden="true">
           {finished && <span className="print-twinkle">✦</span>}
+          {finished && (
+            <span className="print-dust">
+              {Array.from({ length: 7 }).map((_, index) => (
+                <span
+                  key={index}
+                  className="print-dust__puff"
+                  style={{ "--i": index } as React.CSSProperties}
+                />
+              ))}
+            </span>
+          )}
         </span>
       </div>
 

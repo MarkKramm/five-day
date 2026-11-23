@@ -1,5 +1,9 @@
 import { useEffect, useRef, useState } from "react";
+import type { CSSProperties } from "react";
 import type { ExtraPage } from "../types";
+
+/** Static waveform silhouette; it only animates while the tape is playing. */
+const WAVE = [22, 38, 54, 32, 64, 82, 50, 70, 44, 58, 30, 48, 68, 40, 26, 36];
 
 interface AlbumAudioPageProps {
   page: ExtraPage;
@@ -82,6 +86,24 @@ export function AlbumAudioPage({ page, active }: AlbumAudioPageProps) {
         <span className="cassette__screw cassette__screw--three" aria-hidden="true" />
         <span className="cassette__screw cassette__screw--four" aria-hidden="true" />
       </div>
+
+      {!failed && (
+        <div
+          className={`audio-wave ${reels ? "is-playing" : ""} ${fraction > 0 ? "has-progress" : ""}`}
+          aria-hidden="true"
+        >
+          <span className="audio-wave__base" />
+          {WAVE.map((height, index) => (
+            <span
+              key={index}
+              className={`audio-wave__bar ${
+                fraction > 0 && index / WAVE.length <= fraction ? "is-played" : ""
+              }`}
+              style={{ "--h": `${height}%`, "--i": index } as CSSProperties}
+            />
+          ))}
+        </div>
+      )}
 
       {failed ? (
         <p className="audio-placeholder handwritten">audio goes here</p>
