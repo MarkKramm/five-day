@@ -4,7 +4,7 @@ import { prefersReducedMotion } from "../lib/effects";
 import { sound } from "../lib/sound";
 
 /**
- * Tiny amber ring + sparkles at every touch point. It listens at document
+ * Tiny amber ripple + sparkles at every touch point. It listens at document
  * level, ignores nothing already marked with its own sound, and throttles the
  * whole effect to one per 80ms for low-end phones.
  */
@@ -26,7 +26,23 @@ export function TapFeedback() {
       ring.style.left = `${event.clientX}px`;
       ring.style.top = `${event.clientY}px`;
       layer.appendChild(ring);
-      window.setTimeout(() => ring.remove(), 520);
+      window.setTimeout(() => ring.remove(), 640);
+
+      // A second, softer ring follows the first one so a tap reads as a ripple
+      // rather than a single pulse.
+      const second = document.createElement("span");
+      second.className = "tap-ring tap-ring--second";
+      second.style.left = `${event.clientX}px`;
+      second.style.top = `${event.clientY}px`;
+      layer.appendChild(second);
+      window.setTimeout(() => second.remove(), 720);
+
+      const core = document.createElement("span");
+      core.className = "tap-core";
+      core.style.left = `${event.clientX}px`;
+      core.style.top = `${event.clientY}px`;
+      layer.appendChild(core);
+      window.setTimeout(() => core.remove(), 420);
 
       if (!prefersReducedMotion()) {
         const glyphs = ["✦", "✧", "✦"];

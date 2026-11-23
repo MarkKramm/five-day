@@ -1,0 +1,1675 @@
+/* ==========================================================================
+   polish.css — batch 1–3 visual pass
+   Every addition from the owner's list lives here so the original sheets stay
+   untouched. Motion is transform/opacity only unless a note says otherwise.
+   ========================================================================== */
+
+/* ---------------------------------------------------------- 1. intro film */
+
+.intro-strip {
+  position: relative;
+  flex: 0 0 auto;
+  width: min(100%, 330px);
+  margin: auto auto 0;
+  padding: 7px 6px;
+  border-radius: 4px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.07), transparent 26%),
+    #241c16;
+  box-shadow:
+    0 7px 16px rgba(0, 0, 0, 0.36),
+    inset 0 0 0 1px rgba(255, 233, 196, 0.08);
+  animation: stripArrive 620ms cubic-bezier(0.2, 0.8, 0.3, 1) 240ms both;
+}
+
+@keyframes stripArrive {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.intro-strip__perfs {
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  height: 3px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255, 239, 209, 0.3) 0 4px,
+    transparent 4px 9px
+  );
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+.intro-strip__perfs--top { top: 2px; }
+.intro-strip__perfs--bottom { bottom: 2px; }
+
+.intro-strip__frames {
+  display: flex;
+  gap: 4px;
+}
+
+.intro-strip__frame {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 1.5px;
+  background: #120d09;
+  box-shadow: inset 0 0 0 1px rgba(255, 240, 210, 0.08);
+  animation: stripFrameIn 420ms cubic-bezier(0.2, 0.8, 0.3, 1.2) both;
+  animation-delay: calc(320ms + var(--i, 0) * 55ms);
+}
+
+@keyframes stripFrameIn {
+  from {
+    opacity: 0;
+    transform: scale(0.86);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.intro-strip__thumb {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.92) brightness(0.92) contrast(1.02);
+}
+
+.intro-strip__frame.is-waiting {
+  background:
+    repeating-linear-gradient(
+      135deg,
+      rgba(255, 240, 210, 0.07) 0 3px,
+      transparent 3px 7px
+    ),
+    #1a1410;
+}
+
+.intro-strip__ghost {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: rgba(255, 240, 210, 0.42);
+  font-family: var(--font-hand);
+  font-size: 12px;
+  line-height: 1;
+}
+
+.intro-strip__frame.is-closed .intro-strip__ghost {
+  font-size: 9px;
+  opacity: 0.55;
+}
+
+.intro-strip__frame.is-current {
+  box-shadow:
+    inset 0 0 0 1.5px rgba(244, 169, 78, 0.9),
+    inset 0 0 11px rgba(244, 169, 78, 0.3);
+}
+
+.intro-strip__frame.is-current .intro-strip__gloss {
+  animation: stripCurrent 3.4s ease-in-out infinite;
+}
+
+@keyframes stripCurrent {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.intro-strip__done {
+  position: absolute;
+  right: 2px;
+  bottom: 1px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: rgba(26, 19, 14, 0.74);
+  color: #d3ecbb;
+  font-family: var(--font-ui);
+  font-size: 7px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.intro-strip__gloss {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(115deg, rgba(255, 255, 255, 0.16), transparent 42%);
+  pointer-events: none;
+}
+
+/* ------------------------------------------------ 2. title write-on + stack */
+
+.intro-title.is-writing {
+  position: relative;
+}
+
+.intro-title__ink {
+  display: inline-block;
+  animation: titleWrite 1150ms cubic-bezier(0.5, 0.05, 0.3, 1) 160ms both;
+}
+
+@keyframes titleWrite {
+  from { clip-path: inset(-12% 100% -18% 0); }
+  to { clip-path: inset(-12% 0 -18% 0); }
+}
+
+.intro-title.is-writing::after {
+  content: "";
+  position: absolute;
+  left: 19%;
+  right: 19%;
+  bottom: -8px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(232, 196, 138, 0.72) 22%,
+    rgba(232, 196, 138, 0.72) 78%,
+    transparent
+  );
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: titleUnderline 720ms ease-out 980ms forwards;
+}
+
+@keyframes titleUnderline {
+  to { transform: scaleX(1); }
+}
+
+/* The little stack of prints shuffles every few seconds, then rests. */
+.stack-card--back {
+  animation: stackShuffleBack 11s ease-in-out infinite;
+}
+
+.stack-card--middle {
+  animation: stackShuffleMiddle 11s ease-in-out infinite;
+}
+
+@keyframes stackShuffleBack {
+  0%, 61%, 100% { transform: rotate(-13deg) translate(-13px, 2px); }
+  67% { transform: rotate(-6deg) translate(-2px, -10px); }
+  73% { transform: rotate(-17deg) translate(-24px, 5px); }
+  82% { transform: rotate(-13deg) translate(-13px, 2px); }
+}
+
+@keyframes stackShuffleMiddle {
+  0%, 37%, 100% { transform: rotate(9deg) translate(16px, 0); }
+  43% { transform: rotate(3deg) translate(5px, -9px); }
+  49% { transform: rotate(14deg) translate(24px, 3px); }
+  58% { transform: rotate(9deg) translate(16px, 0); }
+}
+
+/* ------------------------------------------------------ 3. paper slide */
+
+.screen {
+  animation: paperSlide 430ms cubic-bezier(0.22, 0.72, 0.24, 1) both;
+}
+
+@keyframes paperSlide {
+  0% {
+    opacity: 0;
+    transform: translate3d(26px, 5px, 0) rotate(0.9deg);
+    box-shadow: -18px 8px 30px rgba(0, 0, 0, 0.42);
+  }
+  55% { opacity: 1; }
+  100% {
+    opacity: 1;
+    transform: none;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  }
+}
+
+/* --------------------------------------------------------- 4. tap ripples */
+
+.tap-ring--second {
+  width: 28px;
+  height: 28px;
+  margin: -14px 0 0 -14px;
+  border-width: 1px;
+  border-color: rgba(244, 169, 78, 0.5);
+  animation: tapRingSecond 620ms ease-out forwards;
+  animation-delay: 70ms;
+}
+
+@keyframes tapRingSecond {
+  from { opacity: 0.7; transform: scale(0.3); }
+  to { opacity: 0; transform: scale(2.1); }
+}
+
+.tap-core {
+  position: fixed;
+  width: 9px;
+  height: 9px;
+  margin: -4.5px 0 0 -4.5px;
+  border-radius: 50%;
+  background: rgba(255, 226, 183, 0.9);
+  box-shadow: 0 0 10px rgba(244, 169, 78, 0.55);
+  animation: tapCore 420ms ease-out forwards;
+}
+
+@keyframes tapCore {
+  from { opacity: 0.9; transform: scale(0.35); }
+  to { opacity: 0; transform: scale(1.7); }
+}
+
+/* ------------------------------------------ 5. light beam + wood light spots */
+
+.desk-bg__beam {
+  animation: beamShift 26s ease-in-out infinite alternate;
+}
+
+@keyframes beamShift {
+  0% {
+    transform: rotate(-13deg) translate3d(0, 0, 0) scaleX(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: rotate(-10.5deg) translate3d(2.5%, 1%, 0) scaleX(1.06);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(-15deg) translate3d(-2%, 0, 0) scaleX(0.97);
+    opacity: 0.74;
+  }
+}
+
+.desk-bg__spots {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.desk-bg__spot {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 214, 155, 0.17), transparent 70%);
+  opacity: 0.45;
+  animation: spotDrift 26s ease-in-out infinite alternate;
+}
+
+.desk-bg__spot--one {
+  left: 6%;
+  top: 50%;
+  width: 46%;
+  height: 26%;
+}
+
+.desk-bg__spot--two {
+  right: -5%;
+  top: 64%;
+  width: 42%;
+  height: 22%;
+  animation-delay: -8s;
+  animation-duration: 32s;
+}
+
+.desk-bg__spot--three {
+  left: 36%;
+  bottom: -6%;
+  width: 56%;
+  height: 20%;
+  animation-delay: -15s;
+  animation-duration: 38s;
+}
+
+@keyframes spotDrift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.32;
+  }
+  to {
+    transform: translate3d(18px, -12px, 0) scale(1.12);
+    opacity: 0.58;
+  }
+}
+
+/* ------------------------------------------------- 6. dust with real depth */
+
+.desk-dust__speck--far {
+  width: 2px;
+  height: 2px;
+  opacity: 0.26;
+  filter: blur(0.2px);
+  animation-duration: 17s;
+}
+
+.desk-dust__speck--mid {
+  width: 3px;
+  height: 3px;
+  opacity: 0.4;
+  animation-duration: 12.5s;
+}
+
+.desk-dust__speck--near {
+  width: 5px;
+  height: 5px;
+  opacity: 0.5;
+  filter: blur(0.3px);
+  box-shadow: 0 0 7px rgba(255, 223, 173, 0.36);
+  animation-duration: 8.5s;
+}
+
+.desk-dust__speck--9 { left: 8%; top: 78%; animation-delay: -1.5s; }
+.desk-dust__speck--10 { left: 55%; top: 12%; animation-delay: -4.5s; }
+.desk-dust__speck--11 { left: 92%; top: 33%; animation-delay: -10s; }
+.desk-dust__speck--12 { left: 30%; top: 52%; animation-delay: -6.5s; }
+
+/* ------------------------------------------------------- 7. camera details */
+
+.viewfinder-frame {
+  position: absolute;
+  inset: -17px -21px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.viewfinder-corner {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border: 2px solid rgba(255, 243, 218, 0.36);
+}
+
+.viewfinder-corner--tl {
+  top: 0;
+  left: 0;
+  border-right: 0;
+  border-bottom: 0;
+  border-radius: 4px 0 0 0;
+}
+
+.viewfinder-corner--tr {
+  top: 0;
+  right: 0;
+  border-left: 0;
+  border-bottom: 0;
+  border-radius: 0 4px 0 0;
+}
+
+.viewfinder-corner--bl {
+  bottom: 0;
+  left: 0;
+  border-right: 0;
+  border-top: 0;
+  border-radius: 0 0 0 4px;
+}
+
+.viewfinder-corner--br {
+  bottom: 0;
+  right: 0;
+  border-left: 0;
+  border-top: 0;
+  border-radius: 0 0 4px 0;
+}
+
+.viewfinder-tick {
+  position: absolute;
+  top: 50%;
+  width: 6px;
+  height: 1.5px;
+  background: rgba(255, 243, 218, 0.34);
+}
+
+.viewfinder-tick--left { left: 3px; }
+.viewfinder-tick--right { right: 3px; }
+
+.camera__lever {
+  position: absolute;
+  z-index: 6;
+  right: -15px;
+  top: 26px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #f2e3c9, #ccb593 68%, #a68f72);
+  border: 1px solid rgba(120, 92, 63, 0.5);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.camera__lever-arm {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 30px;
+  height: 6px;
+  margin-top: -3px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #efdfc4, #b9976b);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.28);
+  transform-origin: 0 50%;
+  transform: rotate(calc(-38deg + var(--lever-angle, 0deg)));
+  transition: transform 380ms cubic-bezier(0.3, 1.5, 0.5, 1);
+}
+
+.camera__lever-knob {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  margin: -4.5px 0 0 -4.5px;
+  border-radius: 50%;
+  background: #6f5a44;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.camera__lens-reflection {
+  position: absolute;
+  inset: 9%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 67% 74%, rgba(255, 255, 255, 0.11), transparent 44%),
+    radial-gradient(circle at 28% 24%, rgba(255, 255, 255, 0.08), transparent 36%);
+  box-shadow: inset 2px -3px 9px rgba(255, 255, 255, 0.06);
+  pointer-events: none;
+}
+
+.camera__lens-spark {
+  position: absolute;
+  top: -24%;
+  left: 12%;
+  width: 64%;
+  height: 15%;
+  border-radius: 50%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.48),
+    transparent
+  );
+  filter: blur(1px);
+  opacity: 0;
+  transform: rotate(-30deg);
+  animation: lensSpark 6.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes lensSpark {
+  0%, 60%, 100% {
+    opacity: 0;
+    transform: rotate(-30deg) translateX(-14px) scaleX(0.4);
+  }
+  69% { opacity: 0.85; }
+  86% {
+    opacity: 0;
+    transform: rotate(-30deg) translateX(16px) scaleX(1.2);
+  }
+}
+
+.camera__focus-light {
+  position: absolute;
+  right: 3px;
+  bottom: -14px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(130, 158, 118, 0.3);
+  box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.4);
+  transition: background-color 220ms ease, box-shadow 220ms ease;
+}
+
+.camera__focus-light.is-on {
+  background: #a9d18b;
+  box-shadow:
+    0 0 8px rgba(169, 209, 139, 0.9),
+    inset 0 0 2px rgba(255, 255, 255, 0.6);
+}
+
+.camera__focus-light.is-on::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(169, 209, 139, 0.55);
+  animation: focusRing 900ms ease-out 1 forwards;
+}
+
+@keyframes focusRing {
+  from { opacity: 0.9; transform: scale(0.55); }
+  to { opacity: 0; transform: scale(1.5); }
+}
+
+/* ------------------------------------------------------ 8. printer lights */
+
+.pp__lights {
+  position: absolute;
+  right: 10px;
+  top: 3px;
+  display: flex;
+  gap: 3px;
+  z-index: 2;
+}
+
+.pp__light {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(20, 30, 24, 0.45);
+  box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.5);
+}
+
+.pp__light--power {
+  background: #9dc48b;
+  box-shadow: 0 0 4px rgba(157, 196, 139, 0.6);
+}
+
+.pp__light--link {
+  background: rgba(244, 169, 78, 0.34);
+}
+
+.printer.is-printing .pp__light--link {
+  background: var(--amber);
+  box-shadow: 0 0 5px rgba(244, 169, 78, 0.8);
+  animation: ppLightPulse 0.8s steps(2, jump-none) infinite;
+}
+
+.printer.is-done .pp__light--paper {
+  background: #cfe8b6;
+  box-shadow: 0 0 5px rgba(207, 232, 182, 0.85);
+}
+
+@keyframes ppLightPulse {
+  50% { opacity: 0.24; }
+}
+
+/* ------------------------------------------------------- 9. print dust puff */
+
+.print-dust {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.print-dust__puff {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px;
+  border-radius: 50%;
+  background: rgba(255, 240, 214, 0.55);
+  filter: blur(1px);
+  opacity: 0;
+  animation: printPuff 900ms ease-out both;
+  animation-delay: calc(var(--i, 0) * 42ms);
+}
+
+.print-dust__puff:nth-child(1) { --dx: -34px; --dy: -12px; }
+.print-dust__puff:nth-child(2) { --dx: -18px; --dy: -22px; }
+.print-dust__puff:nth-child(3) { --dx: -4px; --dy: -26px; }
+.print-dust__puff:nth-child(4) { --dx: 12px; --dy: -22px; }
+.print-dust__puff:nth-child(5) { --dx: 26px; --dy: -14px; }
+.print-dust__puff:nth-child(6) { --dx: 38px; --dy: -4px; }
+.print-dust__puff:nth-child(7) { --dx: 8px; --dy: -34px; }
+
+@keyframes printPuff {
+  0% { opacity: 0; transform: translate3d(0, 0, 0) scale(0.4); }
+  26% { opacity: 0.75; }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--dx, 0), var(--dy, -20px), 0) scale(1.9);
+  }
+}
+
+/* ------------------------------------------------- 10. developing… dots */
+
+.develop-dots-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 12px;
+}
+
+.develop-ellipsis {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.develop-ellipsis i {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(244, 169, 78, 0.85);
+  animation: devDots 1.2s ease-in-out infinite;
+}
+
+.develop-ellipsis i:nth-child(2) { animation-delay: 0.16s; }
+.develop-ellipsis i:nth-child(3) { animation-delay: 0.32s; }
+
+@keyframes devDots {
+  0%, 100% { opacity: 0.25; translate: 0 0; }
+  50% { opacity: 1; translate: 0 -2px; }
+}
+
+/* --------------------------------------------- 11. day-complete stamp thump */
+
+.complete-card {
+  animation:
+    completeCardArrive 550ms cubic-bezier(0.2, 0.8, 0.3, 1) both,
+    completeThump 520ms cubic-bezier(0.2, 0.8, 0.3, 1) 470ms both;
+}
+
+/* Uses the individual translate/scale properties so the arrival transform
+   above is not fought over. */
+@keyframes completeThump {
+  0% { translate: 0 0; scale: 1 1; }
+  18% { translate: 0 3px; scale: 1.008 0.992; }
+  38% { translate: 0 -1px; scale: 0.998 1.002; }
+  60% { translate: 0 1px; scale: 1.001 0.999; }
+  100% { translate: 0 0; scale: 1 1; }
+}
+
+.complete-stamp-impact {
+  position: absolute;
+  z-index: 6;
+  right: 12px;
+  top: 18px;
+  width: 80px;
+  height: 50px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    rgba(152, 95, 62, 0.26),
+    rgba(152, 95, 62, 0.08) 52%,
+    transparent 68%
+  );
+  box-shadow: inset 0 0 0 2px rgba(152, 95, 62, 0.16);
+  opacity: 0;
+  animation: stampImpact 720ms ease-out 470ms both;
+}
+
+@keyframes stampImpact {
+  0% { opacity: 0; transform: scale(0.4); }
+  22% { opacity: 0.9; transform: scale(1.06); }
+  100% { opacity: 0; transform: scale(1.55); }
+}
+
+/* ------------------------------------------------- 12. clip-rail photo fan */
+
+.complete-rail {
+  position: relative;
+  width: min(100%, 252px);
+  height: 76px;
+  margin: 2px auto 0;
+  align-items: flex-start;
+  padding-top: 11px;
+}
+
+.complete-rail__wire {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  top: 8px;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #d3c4ac, #8b7960 62%, #6d5d47);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+.complete-rail__pin {
+  position: absolute;
+  top: 5px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #f0e3cc, #8f7d64);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.complete-rail__pin--left { left: 5px; }
+.complete-rail__pin--right { right: 5px; }
+
+.complete-rail .complete-fan__item {
+  position: relative;
+  width: 41px;
+  height: 58px;
+  margin: 0 3px;
+  padding: 3px;
+  transform-origin: 50% -2px;
+  animation: railSway 4.8s ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * -0.7s);
+}
+
+.complete-rail .complete-fan__item--1 { --r: -2.4deg; }
+.complete-rail .complete-fan__item--2 { --r: -1.1deg; }
+.complete-rail .complete-fan__item--3 { --r: 0.4deg; z-index: 3; }
+.complete-rail .complete-fan__item--4 { --r: 1.6deg; }
+.complete-rail .complete-fan__item--5 { --r: 2.7deg; }
+
+@keyframes railSway {
+  0%, 100% { transform: rotate(var(--r, 0deg)); }
+  50% { transform: rotate(calc(var(--r, 0deg) + 1.1deg)); }
+}
+
+.complete-rail__clip {
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  z-index: 4;
+  width: 11px;
+  height: 19px;
+  margin-left: -5.5px;
+  border-radius: 2px 2px 3px 3px;
+  background: linear-gradient(100deg, #6d5a45, #3f3226 58%, #574634);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+.complete-rail__clip::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  height: 5px;
+  border-radius: 1px;
+  background: rgba(255, 255, 255, 0.13);
+}
+
+.complete-rail__clip-hole {
+  position: absolute;
+  top: 9px;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  margin-left: -2px;
+  border-radius: 50%;
+  background: rgba(18, 13, 9, 0.55);
+}
+
+/* ------------------------------------------------------- 13. streak stamps */
+
+.streak-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  margin-top: 1px;
+}
+
+.streak-row__label {
+  color: rgba(59, 47, 42, 0.55);
+  font-family: var(--font-hand);
+  font-size: 13px;
+  line-height: 1;
+}
+
+.streak-row__stamps {
+  display: flex;
+  gap: 4px;
+}
+
+.streak-stamp {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(120, 88, 58, 0.34);
+  background: rgba(255, 255, 255, 0.2);
+  color: rgba(120, 88, 58, 0.46);
+  font-family: var(--font-ui);
+  font-size: 8.5px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.streak-stamp.is-done {
+  border: 1.5px solid rgba(169, 105, 52, 0.72);
+  color: #8a5327;
+  background: radial-gradient(
+    circle at 50% 40%,
+    rgba(244, 169, 78, 0.26),
+    rgba(244, 169, 78, 0.1)
+  );
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.3);
+  transform: rotate(-4deg);
+}
+
+.streak-stamp__check {
+  position: absolute;
+  right: -3px;
+  bottom: -4px;
+  color: #7f9d63;
+  font-size: 8px;
+  line-height: 1;
+}
+
+.streak-stamp.is-closed {
+  opacity: 0.42;
+}
+
+.streak-stamp.is-current {
+  animation: streakPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes streakPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(244, 169, 78, 0); }
+  50% { box-shadow: 0 0 0 4px rgba(244, 169, 78, 0.13); }
+}
+
+/* ------------------------------------------------- 14. washi tape patterns */
+
+.tape--plain,
+.mini-tape--plain {
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.24), transparent);
+}
+
+.tape--stripe,
+.mini-tape--stripe {
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.32) 0 3px,
+      transparent 3px 7px
+    ),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.2), transparent);
+}
+
+.tape--dot,
+.mini-tape--dot {
+  background-image:
+    radial-gradient(circle at 2px 2px, rgba(255, 255, 255, 0.5) 1px, transparent 1.3px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent);
+  background-size: 6px 6px, 100% 100%;
+}
+
+.tape--gingham,
+.mini-tape--gingham {
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.26) 0 3px,
+      transparent 3px 6px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.2) 0 3px,
+      transparent 3px 6px
+    );
+}
+
+.tape--kraft,
+.mini-tape--kraft {
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      rgba(110, 80, 50, 0.14) 0 2px,
+      transparent 2px 5px
+    ),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16), transparent);
+}
+
+.polaroid-back-tape {
+  position: absolute;
+  top: 3px;
+  left: 50%;
+  z-index: 9;
+  width: 72px;
+  height: 17px;
+  margin-left: -36px;
+  background-color: rgba(255, 245, 220, 0.44);
+  border-inline: 1px dashed rgba(255, 255, 255, 0.2);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  transform: rotate(-2deg);
+  pointer-events: none;
+}
+
+.polaroid-back__margin {
+  position: absolute;
+  left: 3px;
+  top: 4px;
+  bottom: 4px;
+  width: 1px;
+  background: rgba(198, 118, 108, 0.34);
+  pointer-events: none;
+}
+
+.polaroid-ink-stamp {
+  position: absolute;
+  left: 8px;
+  bottom: 3px;
+  width: 50px;
+  height: 50px;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 1px;
+  border-radius: 50%;
+  border: 1.8px solid rgba(160, 92, 70, 0.5);
+  box-shadow: inset 0 0 0 2px rgba(160, 92, 70, 0.16);
+  color: rgba(150, 82, 62, 0.68);
+  transform: rotate(-11deg);
+  opacity: 0.88;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.polaroid-ink-stamp__ring {
+  position: absolute;
+  inset: 5px;
+  border: 1px dashed rgba(160, 92, 70, 0.48);
+  border-radius: 50%;
+}
+
+.polaroid-ink-stamp__day {
+  font-family: var(--font-ui);
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1;
+}
+
+.polaroid-ink-stamp__date {
+  font-size: 12.5px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.polaroid-peel {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 9;
+  width: 30px;
+  height: 30px;
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+  background: linear-gradient(315deg, #fffdf7 0%, #f4e8d3 54%, #e3d0af 100%);
+  border-bottom-right-radius: 4px;
+  filter: drop-shadow(-2px -2px 3px rgba(60, 42, 26, 0.22));
+  pointer-events: none;
+}
+
+.polaroid-peel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top right,
+    transparent 46%,
+    rgba(96, 70, 46, 0.26) 48%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 54%
+  );
+}
+
+/* --------------------------------------------------- 15. album page edges */
+
+.album-page-frame {
+  position: relative;
+}
+
+.album-page-frame .album-page {
+  box-shadow:
+    inset -1px 0 0 rgba(126, 96, 64, 0.2),
+    inset -2px 0 0 rgba(255, 253, 245, 0.42),
+    inset -3px 0 0 rgba(126, 96, 64, 0.1),
+    inset 0 -1px 0 rgba(126, 96, 64, 0.18),
+    inset 0 -2px 0 rgba(255, 253, 245, 0.36),
+    inset 0 0 50px rgba(98, 65, 34, 0.2),
+    inset 0 0 0 1px rgba(255, 248, 232, 0.22);
+}
+
+.album-page-stack {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  width: 15px;
+  height: 15px;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    135deg,
+    rgba(120, 92, 62, 0.24) 0 1px,
+    transparent 1px 4px
+  );
+  -webkit-mask-image: linear-gradient(135deg, transparent 40%, #000 64%);
+  mask-image: linear-gradient(135deg, transparent 40%, #000 64%);
+}
+
+/* ------------------------------------------------------ 16. margin doodles */
+
+.page-doodles {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  color: rgba(120, 82, 48, 0.32);
+  pointer-events: none;
+}
+
+.page-doodle {
+  position: absolute;
+}
+
+.page-doodle--a {
+  right: 6px;
+  top: 5px;
+  width: 27px;
+  height: 27px;
+  opacity: 0.85;
+}
+
+.page-doodle--b {
+  left: 5px;
+  bottom: 9px;
+  width: 23px;
+  height: 23px;
+}
+
+.page-doodle--c {
+  right: 7px;
+  bottom: 9px;
+  width: 32px;
+  height: 20px;
+}
+
+.album-day-header,
+.album-grid,
+.album-outro {
+  position: relative;
+  z-index: 2;
+}
+
+/* ------------------------------------------------ 17. washi strip on top */
+
+.album-day-header {
+  position: relative;
+}
+
+.album-washi {
+  position: absolute;
+  top: 7px;
+  left: 50%;
+  z-index: 3;
+  width: 58%;
+  max-width: 196px;
+  height: 13px;
+  margin-left: -29%;
+  border-inline: 1px dashed rgba(255, 255, 255, 0.3);
+  box-shadow: 0 1px 3px rgba(80, 54, 32, 0.16);
+  transform: rotate(-1.2deg);
+  opacity: 0.9;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  pointer-events: none;
+}
+
+.album-washi--1 {
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(244, 169, 78, 0.52) 0 5px,
+    rgba(255, 244, 214, 0.72) 5px 10px
+  );
+}
+
+.album-washi--2 {
+  background:
+    radial-gradient(circle at 3px 3px, rgba(232, 138, 138, 0.6) 1.4px, transparent 1.6px),
+    rgba(255, 240, 226, 0.78);
+  background-size: 7px 7px, 100% 100%;
+}
+
+.album-washi--3 {
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(143, 191, 159, 0.42) 0 4px,
+      rgba(255, 255, 255, 0.42) 4px 8px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(143, 191, 159, 0.3) 0 4px,
+      transparent 4px 8px
+    );
+}
+
+/* ------------------------------------------------ 18. empty slot ghosts */
+
+.mini-empty {
+  position: relative;
+}
+
+.mini-empty__frame {
+  position: absolute;
+  inset: 4px 4px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  border: 1px dashed rgba(150, 113, 78, 0.34);
+  border-radius: 2px;
+  background: repeating-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.3) 0 6px,
+    rgba(255, 255, 255, 0.1) 6px 12px
+  );
+  animation: ghostBreathe 4.6s ease-in-out infinite;
+}
+
+@keyframes ghostBreathe {
+  0%, 100% { opacity: 0.62; }
+  50% { opacity: 1; }
+}
+
+.mini-empty__ghost {
+  display: grid;
+  place-items: center;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  color: rgba(140, 104, 68, 0.52);
+}
+
+.mini-empty__icon {
+  width: 15px;
+  height: 15px;
+}
+
+.mini-empty__waiting {
+  color: rgba(120, 88, 58, 0.5);
+  font-family: var(--font-hand);
+  font-size: 10px;
+  line-height: 1;
+}
+
+.mini-empty__tape {
+  position: absolute;
+  top: -5px;
+  width: 30px;
+  height: 11px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 244, 216, 0.55);
+  box-shadow: 0 1px 2px rgba(75, 52, 30, 0.12);
+}
+
+.mini-empty__tape--left {
+  left: -7px;
+  transform: rotate(-30deg);
+}
+
+.mini-empty__tape--right {
+  right: -7px;
+  transform: rotate(30deg);
+}
+
+/* --------------------------------------- 19. polaroid settle with tape press */
+
+.album-day-page.is-settling .mini-shell {
+  animation: photoSettle 760ms cubic-bezier(0.22, 0.9, 0.3, 1.15) both;
+  animation-delay: calc(var(--settle-i, 0) * 85ms);
+}
+
+@keyframes photoSettle {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -26px, 0) rotate(calc(var(--tilt, 0deg) + 9deg))
+      scale(1.06);
+  }
+  55% {
+    opacity: 1;
+    transform: translate3d(0, 3px, 0) rotate(calc(var(--tilt, 0deg) - 2deg))
+      scale(0.995);
+  }
+  78% {
+    transform: translate3d(0, -2px, 0) rotate(var(--tilt, 0deg)) scale(1.004);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(var(--tilt, 0deg)) scale(1);
+  }
+}
+
+.album-day-page.is-settling .mini-tape {
+  animation: tapePress 420ms ease-out both;
+  animation-delay: calc(var(--settle-i, 0) * 85ms + 330ms);
+}
+
+@keyframes tapePress {
+  from { opacity: 0; scale: 1.2 0.6; }
+  to { opacity: 1; scale: 1 1; }
+}
+
+/* ------------------------------------------------ 20. album cover shine */
+
+.album-cover__grain {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.55;
+  mix-blend-mode: overlay;
+  background-image:
+    repeating-linear-gradient(
+      118deg,
+      rgba(255, 255, 255, 0.05) 0 1px,
+      transparent 1px 5px
+    ),
+    repeating-linear-gradient(
+      -28deg,
+      rgba(0, 0, 0, 0.09) 0 1px,
+      transparent 1px 7px
+    ),
+    radial-gradient(circle at 22% 74%, rgba(255, 226, 180, 0.1), transparent 38%);
+}
+
+.album-cover__shine {
+  position: absolute;
+  top: -40%;
+  bottom: -40%;
+  left: -60%;
+  z-index: 0;
+  width: 38%;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 235, 200, 0.1) 42%,
+    rgba(255, 248, 230, 0.22) 50%,
+    rgba(255, 235, 200, 0.1) 58%,
+    transparent
+  );
+  animation: coverShine 9s ease-in-out 1.4s infinite;
+}
+
+@keyframes coverShine {
+  0%, 55% {
+    transform: rotate(14deg) translateX(-30%);
+    opacity: 0;
+  }
+  62% { opacity: 1; }
+  88%, 100% {
+    transform: rotate(14deg) translateX(330%);
+    opacity: 0;
+  }
+}
+
+.album-cover__subtitle,
+.album-cover__dates,
+.album-cover__rule,
+.album-cover__ornament {
+  position: relative;
+  z-index: 1;
+}
+
+.album-cover__made,
+.album-cover__footer,
+.album-cover__little-spark {
+  z-index: 1;
+}
+
+/* ------------------------------------------------------ 21. bookmark ribbon */
+
+.album-ribbon {
+  position: absolute;
+  top: 0;
+  z-index: 12;
+  left: calc(72% - var(--page-index, 0) * 2.4%);
+  width: 15px;
+  height: 58px;
+  pointer-events: none;
+  background: linear-gradient(90deg, #a94e4e, #dc8484 42%, #a14444);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.34);
+  transform-origin: 50% 0;
+  transition: left 320ms cubic-bezier(0.33, 0.08, 0.25, 1);
+  animation: ribbonSway 6s ease-in-out infinite;
+}
+
+.album-ribbon::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 9px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.3), transparent);
+}
+
+.album-ribbon__tail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -7px;
+  height: 8px;
+  background: inherit;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+@keyframes ribbonSway {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(1.1deg); }
+}
+
+/* ------------------------------------------------- 22. fake page curl */
+
+.album-curl {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -22%;
+  z-index: 7;
+  width: 72%;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.album-curl.is-next {
+  animation: curlNext 480ms cubic-bezier(0.4, 0.1, 0.3, 1) both;
+}
+
+.album-curl.is-prev {
+  animation: curlPrev 480ms cubic-bezier(0.4, 0.1, 0.3, 1) both;
+}
+
+.album-curl__edge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 26%;
+  border-radius: 0 100% 100% 0 / 0 50% 50% 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 251, 240, 0.5) 55%,
+    rgba(255, 252, 244, 0.9) 82%,
+    rgba(150, 115, 80, 0.32) 97%,
+    transparent
+  );
+  box-shadow: 9px 0 20px rgba(70, 45, 25, 0.28);
+}
+
+.album-curl__shadow {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 22%,
+    rgba(70, 48, 28, 0.13) 66%,
+    rgba(55, 35, 18, 0.3) 100%
+  );
+}
+
+@keyframes curlNext {
+  0% { transform: translate3d(18%, 0, 0) scaleX(0.45); opacity: 0; }
+  14% { opacity: 0.95; }
+  100% { transform: translate3d(-148%, 0, 0) scaleX(1.1); opacity: 0; }
+}
+
+@keyframes curlPrev {
+  0% { transform: translate3d(-148%, 0, 0) scaleX(1.1); opacity: 0; }
+  14% { opacity: 0.95; }
+  100% { transform: translate3d(18%, 0, 0) scaleX(0.45); opacity: 0; }
+}
+
+/* ---------------------------------------------- 23. locked sky, shooting star */
+
+.locked-shooting-star {
+  position: absolute;
+  width: 58px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, rgba(255, 249, 232, 0.95), rgba(255, 249, 232, 0));
+  transform-origin: left center;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.locked-shooting-star--one {
+  top: 15px;
+  right: 34px;
+  animation: shootingStar 9.5s ease-in 1.6s infinite;
+}
+
+.locked-shooting-star--two {
+  top: 54px;
+  right: 58px;
+  width: 36px;
+  height: 1.5px;
+  animation: shootingStar 14s ease-in 7s infinite;
+}
+
+@keyframes shootingStar {
+  0%, 77%, 100% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) rotate(145deg);
+  }
+  80% { opacity: 0; }
+  84% { opacity: 0.95; }
+  92% {
+    opacity: 0.85;
+    transform: translate3d(-70px, 46px, 0) rotate(145deg);
+  }
+  97%, 100% {
+    opacity: 0;
+    transform: translate3d(-96px, 62px, 0) rotate(145deg);
+  }
+}
+
+/* Question marks fade in and out on their own slow rhythm. */
+.locked-q {
+  animation:
+    lockedFloat 4.6s ease-in-out infinite,
+    lockedQFade 6.2s ease-in-out infinite;
+}
+
+.locked-q--a { animation-delay: -0.8s, 0s; }
+.locked-q--b { animation-delay: -2.2s, -1.5s; }
+.locked-q--c { animation-delay: -3.1s, -3s; }
+.locked-q--d { animation-delay: -1.5s, -4.4s; }
+
+@keyframes lockedQFade {
+  0%, 100% { opacity: 0.16; }
+  48% { opacity: 0.78; }
+}
+
+/* ------------------------------------------------ 24. note page writing */
+
+.note-word {
+  opacity: 1;
+}
+
+.album-note-page.is-writing .note-word {
+  animation: noteInk 460ms ease-out both;
+  animation-delay: calc(var(--w, 0) * 42ms + 120ms);
+}
+
+@keyframes noteInk {
+  from { opacity: 0; filter: blur(1.6px); }
+  to { opacity: 1; filter: blur(0); }
+}
+
+.note-paperclip {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  z-index: 5;
+  width: 16px;
+  height: 38px;
+  border: 2.5px solid rgba(150, 145, 135, 0.75);
+  border-radius: 9px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+  transform: rotate(12deg);
+  pointer-events: none;
+}
+
+.note-paperclip__inner {
+  position: absolute;
+  top: 6px;
+  left: 2.5px;
+  width: 6px;
+  height: 24px;
+  border: 2px solid rgba(182, 177, 167, 0.85);
+  border-radius: 5px;
+}
+
+/* --------------------------------------------- 25. audio waveform cassette */
+
+.audio-wave {
+  position: relative;
+  width: min(100%, 272px);
+  height: 42px;
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+
+.audio-wave__base {
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  top: 50%;
+  height: 1px;
+  background: rgba(120, 88, 58, 0.16);
+}
+
+.audio-wave__bar {
+  position: relative;
+  z-index: 1;
+  width: 3px;
+  height: var(--h, 40%);
+  border-radius: 2px;
+  background: rgba(120, 88, 58, 0.28);
+  transition: background-color 150ms linear;
+}
+
+.audio-wave__bar.is-played {
+  background: rgba(201, 127, 42, 0.68);
+}
+
+.audio-wave.is-playing .audio-wave__bar {
+  animation: waveBounce 900ms ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * -60ms);
+}
+
+@keyframes waveBounce {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(0.55); }
+}
+
+.cassette.is-playing {
+  animation: cassetteWobble 3.6s ease-in-out infinite;
+}
+
+@keyframes cassetteWobble {
+  0%, 100% { transform: rotate(-0.5deg) translateY(0); }
+  50% { transform: rotate(0.5deg) translateY(-1.5px); }
+}
+
+/* --------------------------------------------------------- 26. small phones */
+
+@media (max-height: 700px) {
+  .intro-strip {
+    width: min(100%, 300px);
+    padding: 5px;
+  }
+
+  .complete-rail {
+    height: 66px;
+    padding-top: 9px;
+  }
+
+  .complete-rail .complete-fan__item {
+    width: 36px;
+    height: 51px;
+  }
+
+  .streak-stamp {
+    width: 20px;
+    height: 20px;
+  }
+
+  .album-washi {
+    height: 11px;
+  }
+
+  .album-ribbon {
+    height: 48px;
+  }
+}
+
+/* ------------------------------------------------------ 27. reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  .screen,
+  .intro-strip,
+  .intro-strip__frame,
+  .intro-title__ink,
+  .intro-title.is-writing::after,
+  .stack-card--back,
+  .stack-card--middle,
+  .tap-ring--second,
+  .tap-core,
+  .desk-bg__beam,
+  .desk-bg__spot,
+  .desk-dust__speck,
+  .camera__lever-arm,
+  .camera__lens-spark,
+  .camera__focus-light.is-on,
+  .camera__focus-light.is-on::after,
+  .print-dust__puff,
+  .develop-ellipsis i,
+  .complete-card,
+  .complete-stamp-impact,
+  .complete-rail .complete-fan__item,
+  .streak-stamp.is-current,
+  .album-page.is-settling .mini-shell,
+  .album-page.is-settling .mini-tape,
+  .mini-empty__frame,
+  .album-cover__shine,
+  .album-ribbon,
+  .album-curl,
+  .locked-shooting-star,
+  .locked-q,
+  .album-note-page.is-writing .note-word,
+  .audio-wave.is-playing .audio-wave__bar,
+  .cassette.is-playing {
+    animation: none !important;
+  }
+
+  .album-page.is-settling .mini-shell,
+  .note-word {
+    opacity: 1 !important;
+    transform: rotate(var(--tilt, 0deg)) !important;
+    scale: 1 1 !important;
+  }
+
+  .album-page.is-settling .mini-tape {
+    opacity: 1 !important;
+    scale: 1 1 !important;
+  }
+
+  .album-curl {
+    display: none !important;
+  }
+
+  .intro-title__ink {
+    clip-path: none !important;
+  }
+}

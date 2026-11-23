@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { PointerEvent as ReactPointerEvent } from "react";
+import type { CSSProperties, PointerEvent as ReactPointerEvent } from "react";
 import { TIMING } from "../constants";
 import { readDayProgress } from "../lib/storage";
 import { sound } from "../lib/sound";
@@ -49,14 +49,30 @@ export function Album({
     return index >= 0 ? index : 0;
   });
   const [viewer, setViewer] = useState<ViewerState | null>(null);
+  const [turn, setTurn] = useState<{ key: number; dir: number } | null>(null);
   const pointer = useRef<{ id: number; x: number; y: number } | null>(null);
   const suppressTapUntil = useRef(0);
+  const turnTimer = useRef<number | null>(null);
 
   const movePage = (next: number) => {
     const clamped = Math.max(0, Math.min(pages.length - 1, next));
-    if (clamped !== page) sound.play("flip");
+    if (clamped !== page) {
+      sound.play("flip");
+      // One fake paper curl per page change: a shadow band and a bright edge
+      // sweep across the window while the page track slides.
+      setTurn({ key: Date.now(), dir: clamped > page ? 1 : -1 });
+      if (turnTimer.current) window.clearTimeout(turnTimer.current);
+      turnTimer.current = window.setTimeout(() => setTurn(null), 520);
+    }
     setPage(clamped);
   };
+
+  useEffect(
+    () => () => {
+      if (turnTimer.current) window.clearTimeout(turnTimer.current);
+    },
+    [],
+  );
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -113,6 +129,15 @@ export function Album({
       </button>
 
       <div className="album-book">
+        {page > 0 && (
+          <span
+            className="album-ribbon"
+            aria-hidden="true"
+            style={{ "--page-index": page } as CSSProperties}
+          >
+            <span className="album-ribbon__tail" />
+          </span>
+        )}
         <div
           className="album-page-window"
           onPointerDown={pointerDown}
@@ -139,6 +164,7 @@ export function Album({
                     day={entry.day}
                     progress={readDayProgress(saved, entry.day.id)}
                     tone={config.photoTone}
+                    active={page === index && !viewer}
                     onOpenPhoto={(rank) => openPhoto(entry.day as DayConfig, rank)}
                   />
                 )}
@@ -147,14 +173,25 @@ export function Album({
                 )}
                 {entry.kind === "extra" && entry.extra && (
                   entry.extra.type === "note" ? (
-                    <AlbumNotePage page={entry.extra} />
+                    <AlbumNotePage page={entry.extra} active={page === index && !viewer} />
                   ) : (
                     <AlbumAudioPage page={entry.extra} active={page === index && !viewer} />
                   )
                 )}
+                <span className="album-page-stack" aria-hidden="true" />
               </div>
             ))}
           </div>
+          {turn && (
+            <span
+              key={turn.key}
+              className={`album-curl ${turn.dir > 0 ? "is-next" : "is-prev"}`}
+              aria-hidden="true"
+            >
+              <span className="album-curl__edge" />
+              <span className="album-curl__shadow" />
+            </span>
+          )}
         </div>
 
         <nav className="album-nav" aria-label="Album pages">

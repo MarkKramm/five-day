@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import type { PhotoConfig } from "../types";
+import { tapePattern } from "../lib/tape";
 import { PhotoMedia } from "./PhotoMedia";
 
 interface PolaroidProps {
@@ -38,6 +39,7 @@ export function Polaroid({
   const backSize = photo.message.length > 160 ? 16 : photo.message.length > 110 ? 18 : 21;
   const frameClass = `frame-${photo.frame}`;
   const isBack = Math.abs(Math.round(rotation / 180)) % 2 === 1;
+  const pattern = tapePattern(photo.frame);
 
   return (
     <div className={`polaroid-shell ${showRays ? "polaroid-shell--favorite" : ""}`}>
@@ -71,8 +73,8 @@ export function Polaroid({
             </div>
             {photo.frame === "kraft" && (
               <>
-                <span className="tape tape--left" aria-hidden="true" />
-                <span className="tape tape--right" aria-hidden="true" />
+                <span className={`tape tape--left tape--${pattern}`} aria-hidden="true" />
+                <span className={`tape tape--right tape--${pattern}`} aria-hidden="true" />
               </>
             )}
           </article>
@@ -82,6 +84,7 @@ export function Polaroid({
             aria-hidden={!isBack}
           >
             <div className="polaroid-back__inner">
+              <span className="polaroid-back__margin" aria-hidden="true" />
               <p
                 className="polaroid-message handwritten"
                 style={{ "--back-font": `${backSize}px` } as CSSProperties}
@@ -91,14 +94,14 @@ export function Polaroid({
               <span className="polaroid-stamp">
                 #{photo.rank} of 5 · Day {dayId}
               </span>
-              <span className="polaroid-date handwritten">{dateLabel}</span>
+              <span className="polaroid-ink-stamp" aria-hidden="true">
+                <span className="polaroid-ink-stamp__ring" />
+                <span className="polaroid-ink-stamp__day">DAY {dayId}</span>
+                <span className="polaroid-ink-stamp__date handwritten">{dateLabel}</span>
+              </span>
             </div>
-            {photo.frame === "kraft" && (
-              <>
-                <span className="tape tape--left" aria-hidden="true" />
-                <span className="tape tape--right" aria-hidden="true" />
-              </>
-            )}
+            <span className={`polaroid-back-tape tape--${pattern}`} aria-hidden="true" />
+            <span className="polaroid-peel" aria-hidden="true" />
           </article>
         </div>
       </div>

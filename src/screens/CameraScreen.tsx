@@ -80,6 +80,14 @@ export function CameraScreen({ onFilmLoaded, onComplete }: CameraScreenProps) {
 
       <div className="camera-stage">
         <div className={`camera ${shaking ? "is-shaking" : ""}`} aria-hidden="true">
+          <span className="viewfinder-frame" aria-hidden="true">
+            <span className="viewfinder-corner viewfinder-corner--tl" />
+            <span className="viewfinder-corner viewfinder-corner--tr" />
+            <span className="viewfinder-corner viewfinder-corner--bl" />
+            <span className="viewfinder-corner viewfinder-corner--br" />
+            <span className="viewfinder-tick viewfinder-tick--left" />
+            <span className="viewfinder-tick viewfinder-tick--right" />
+          </span>
           <div className="camera__toprow">
             <span className="camera__shutter-stud" />
             <span className="camera__viewfinder-bump">
@@ -87,6 +95,13 @@ export function CameraScreen({ onFilmLoaded, onComplete }: CameraScreenProps) {
             </span>
             <span className="camera__topspacer" />
           </div>
+          <span
+            className={`camera__lever ${film > 0 ? "is-advanced" : ""}`}
+            style={{ "--lever-angle": `${film * 22}deg` } as React.CSSProperties}
+          >
+            <span className="camera__lever-arm" />
+            <span className="camera__lever-knob" />
+          </span>
           <div className="camera__body">
             <span className="camera__band">
               <span className="camera__stitching" />
@@ -98,11 +113,14 @@ export function CameraScreen({ onFilmLoaded, onComplete }: CameraScreenProps) {
             <span className="camera__topright">
               <span className={`camera__indicator ${full ? "is-full" : ""}`} />
               <span className="camera__sensor" />
+              <span className={`camera__focus-light ${full ? "is-on" : ""}`} />
             </span>
             <span className="camera__lens" ref={lensRef}>
               <span className="camera__lens-brass" />
               <span className="camera__lens-glass">
+                <span className="camera__lens-reflection" />
                 <span className="camera__lens-glint" />
+                <span className="camera__lens-spark" />
                 {irisKey > 0 && <span key={irisKey} className="camera__iris" aria-hidden="true" />}
               </span>
             </span>

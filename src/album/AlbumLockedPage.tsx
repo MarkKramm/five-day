@@ -16,6 +16,8 @@ export function AlbumLockedPage({ day, lockedText, lockedPrefix }: AlbumLockedPa
         <span className="locked-star locked-star--one">✦</span>
         <span className="locked-star locked-star--two">✧</span>
         <span className="locked-star locked-star--three">✦</span>
+        <span className="locked-shooting-star locked-shooting-star--one" />
+        <span className="locked-shooting-star locked-shooting-star--two" />
       </div>
       <div className="locked-developing" aria-hidden="true">
         <span className="locked-developing__photo">

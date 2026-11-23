@@ -53,6 +53,11 @@ export function Printer({ done, progress = 0, holding = false, compact = false }
         {/* FRONT FACE: the thin lip facing us, with the slot the photo leaves from */}
         <div className="pp__front">
           <span className="pp__slot" />
+          <span className="pp__lights">
+            <span className="pp__light pp__light--power" />
+            <span className="pp__light pp__light--link" />
+            <span className="pp__light pp__light--paper" />
+          </span>
         </div>
       </div>
     </div>

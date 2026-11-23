@@ -15,6 +15,8 @@ export function AlbumCover({ title, subtitle, canOpen, onOpen }: AlbumCoverProps
         disabled={!canOpen}
         aria-label={canOpen ? "Open the album to the first day" : "Album cover"}
       >
+        <span className="album-cover__grain" aria-hidden="true" />
+        <span className="album-cover__shine" aria-hidden="true" />
         <span className="album-cover__spine" aria-hidden="true" />
         <span className="album-cover__stitch" aria-hidden="true" />
         <span className="album-cover__corner album-cover__corner--tl" aria-hidden="true" />

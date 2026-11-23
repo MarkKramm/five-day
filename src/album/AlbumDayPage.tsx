@@ -2,6 +2,9 @@ import type { CSSProperties } from "react";
 import { RANKS } from "../constants";
 import type { DayConfig, DayProgress, PhotoConfig } from "../types";
 import { PhotoMedia } from "../components/PhotoMedia";
+import { CameraGlyph } from "../components/Icons";
+import { PageDoodles } from "../components/PageDoodles";
+import { tapePattern } from "../lib/tape";
 
 const TILTS = [-3, 2, 1.5, -2, 0];
 
@@ -9,6 +12,8 @@ interface AlbumDayPageProps {
   day: DayConfig;
   progress: DayProgress;
   tone: "warm" | "none";
+  /** The page currently under the reader's eye: replays the settle moment. */
+  active?: boolean;
   onOpenPhoto: (rank: number) => void;
 }
 
@@ -23,10 +28,11 @@ function MiniPolaroid({
   index: number;
   favorite: boolean;
 }) {
+  const pattern = tapePattern(photo.frame);
   return (
     <div
       className={`mini-shell ${favorite ? "mini-shell--favorite" : ""}`}
-      style={{ "--tilt": `${TILTS[index]}deg` } as CSSProperties}
+      style={{ "--tilt": `${TILTS[index]}deg`, "--settle-i": index } as CSSProperties}
     >
       {favorite && <span className="mini-sunburst" aria-hidden="true" />}
       <div className={`mini-polaroid frame-${photo.frame}`}>
@@ -34,8 +40,14 @@ function MiniPolaroid({
           <PhotoMedia photo={photo} tone={tone} lazy />
         </div>
         <span className="mini-polaroid__strip" aria-hidden="true" />
-        <span className={`mini-tape mini-tape--left tape-color-${index % 3}`} aria-hidden="true" />
-        <span className={`mini-tape mini-tape--right tape-color-${(index + 1) % 3}`} aria-hidden="true" />
+        <span
+          className={`mini-tape mini-tape--left mini-tape--${pattern} tape-color-${index % 3}`}
+          aria-hidden="true"
+        />
+        <span
+          className={`mini-tape mini-tape--right mini-tape--${pattern} tape-color-${(index + 1) % 3}`}
+          aria-hidden="true"
+        />
         {favorite && (
           <span className="mini-star" aria-hidden="true">
             ⭐
@@ -46,10 +58,15 @@ function MiniPolaroid({
   );
 }
 
-export function AlbumDayPage({ day, progress, tone, onOpenPhoto }: AlbumDayPageProps) {
+export function AlbumDayPage({ day, progress, tone, active = false, onOpenPhoto }: AlbumDayPageProps) {
   return (
-    <div className="album-page album-day-page">
+    <div className={`album-page album-day-page ${active ? "is-settling" : ""}`}>
+      <PageDoodles seed={day.id} />
       <header className="album-day-header">
+        <span
+          className={`album-washi album-washi--${(day.id % 3) + 1}`}
+          aria-hidden="true"
+        />
         <p className="album-day-title handwritten">
           Day {day.id} <span aria-hidden="true">·</span> {day.dateLabel}
         </p>
@@ -80,7 +97,16 @@ export function AlbumDayPage({ day, progress, tone, onOpenPhoto }: AlbumDayPageP
                   className="mini-empty"
                   style={{ "--tilt": `${TILTS[index]}deg` } as CSSProperties}
                   aria-hidden="true"
-                />
+                >
+                  <span className="mini-empty__frame">
+                    <span className="mini-empty__ghost">
+                      <CameraGlyph className="mini-empty__icon" />
+                    </span>
+                    <span className="mini-empty__waiting handwritten">waiting</span>
+                  </span>
+                  <span className="mini-empty__tape mini-empty__tape--left" />
+                  <span className="mini-empty__tape mini-empty__tape--right" />
+                </div>
               )}
               <span className={`slot-rank handwritten ${favorite ? "slot-rank--favorite" : ""}`}>
                 #{rank}

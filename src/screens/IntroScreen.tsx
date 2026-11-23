@@ -1,5 +1,7 @@
 import type { DayConfig } from "../types";
 import { CameraGlyph, BookGlyph } from "../components/Icons";
+import { IntroFilmStrip } from "../components/IntroFilmStrip";
+import type { IntroStripDay } from "../components/IntroFilmStrip";
 import { useTexts, fillText } from "../lib/texts";
 
 interface IntroScreenProps {
@@ -10,6 +12,7 @@ interface IntroScreenProps {
   subtitle: string;
   note: string;
   finishedLine: string;
+  strip: IntroStripDay[];
   onStart: () => void;
   onOpenAlbum: () => void;
 }
@@ -22,6 +25,7 @@ export function IntroScreen({
   subtitle,
   note,
   finishedLine,
+  strip,
   onStart,
   onOpenAlbum,
 }: IntroScreenProps) {
@@ -51,12 +55,16 @@ export function IntroScreen({
       </div>
 
         <div className="intro-copy">
-        <h1 className="intro-title handwritten">{title}</h1>
+        <h1 className="intro-title handwritten is-writing">
+          <span className="intro-title__ink">{title}</span>
+        </h1>
         <p className="intro-subtitle">
           Day {day?.id ?? totalDays} of {totalDays} · {subtitle}
         </p>
         <p className="intro-note">{note}</p>
         </div>
+
+        <IntroFilmStrip items={strip} currentId={day?.id} />
       </div>
 
       <div className="intro-actions">
