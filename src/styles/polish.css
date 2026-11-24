@@ -1750,3 +1750,94 @@
 .album-icon__ribbon {
   fill: var(--rose);
 }
+
+
+/* ------------------------------------ 31. note: fills the paper, fades out */
+
+/* Only reached when even the smallest size cannot fit the whole note. */
+.polaroid-message.is-cropped {
+  -webkit-mask-image: linear-gradient(180deg, #000 88%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 88%, transparent 100%);
+}
+
+.polaroid-back__sticker {
+  position: absolute;
+  top: -3px;
+  z-index: 4;
+  font-size: 16px;
+  line-height: 1;
+  pointer-events: none;
+  opacity: 0.94;
+  filter: drop-shadow(0 1px 1px rgba(60, 42, 26, 0.18));
+}
+
+.polaroid-back__sticker--1 {
+  right: -5px;
+  transform: rotate(10deg);
+}
+
+.polaroid-back__sticker--2 {
+  left: -5px;
+  top: 1px;
+  transform: rotate(-11deg) scale(0.82);
+}
+
+/* --------------------------------------------- 32. printed photo borders */
+
+.photo-border {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* a slim cream mat, like a print mounted on board */
+.photo-border--frame {
+  inset: 0;
+  border: 4px solid rgba(255, 250, 240, 0.92);
+  box-shadow: inset 0 0 0 1px rgba(92, 68, 44, 0.2);
+}
+
+/* a dashed stitch just inside the edge */
+.photo-border--stitch {
+  inset: 4px;
+  border: 1.5px dashed rgba(255, 250, 240, 0.88);
+  border-radius: 2px;
+  filter: drop-shadow(0 0 1px rgba(50, 35, 22, 0.4));
+}
+
+/* four photo-mount corners, the old album kind */
+.photo-border--corners {
+  inset: 0;
+  background:
+    linear-gradient(135deg, rgba(255, 250, 240, 0.94) 0 10px, transparent 10px) 0 0 / 26px 26px
+      no-repeat,
+    linear-gradient(225deg, rgba(255, 250, 240, 0.94) 0 10px, transparent 10px) 100% 0 / 26px 26px
+      no-repeat,
+    linear-gradient(45deg, rgba(255, 250, 240, 0.94) 0 10px, transparent 10px) 0 100% / 26px 26px
+      no-repeat,
+    linear-gradient(315deg, rgba(255, 250, 240, 0.94) 0 10px, transparent 10px) 100% 100% / 26px 26px
+      no-repeat;
+}
+
+/* ------------------------------------- 33. one sticker under each print */
+
+.complete-fan__item {
+  position: relative;
+}
+
+.complete-fan__sticker {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 1px;
+  text-align: center;
+  font-size: 8px;
+  line-height: 1;
+  pointer-events: none;
+  opacity: 0.95;
+}
+
+.complete-rail .complete-fan__sticker {
+  bottom: 2px;
+  font-size: 10px;
+}

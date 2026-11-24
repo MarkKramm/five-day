@@ -47,16 +47,35 @@ window.FIVE_A_DAY_CONFIG = {
       outro: "Day 1 done. Five photos, kept.",
       photos: [
         // order does not matter; each photo has its own rank (5 is shown first, 1 is the favorite)
-        { rank: 5, src: "photos/d1-5.jpg", caption: "caption 5", message: "message 5: a short note about this photo",
-          frame: "cream",   focus: "50% 50%", effect: { motion: "rise", emojis: ["✨","🌙"], count: 18 } },
-        { rank: 4, src: "photos/d1-4.jpg", caption: "caption 4", message: "message 4: a short note about this photo",
-          frame: "classic", focus: "50% 45%", effect: { motion: "fall", emojis: ["🍂"], count: 16 } },
-        { rank: 3, src: "photos/d1-3.jpg", caption: "caption 3", message: "message 3: a short note about this photo",
-          frame: "rose",    focus: "50% 50%", effect: { motion: "burst", emojis: ["⭐","✨"], count: 14 } },
-        { rank: 2, src: "photos/d1-2.jpg", caption: "caption 2", message: "message 2: a short note about this photo",
-          frame: "sage",    focus: "50% 55%", effect: { motion: "drift", emojis: ["🌟"], count: 12 } },
-        { rank: 1, src: "photos/d1-1.jpg", caption: "my favourite today", message: "message 1: a short note about this photo",
-          frame: "kraft",   focus: "50% 50%", effect: { motion: "burst", emojis: ["⭐","✨"], count: 24 } }
+        // Per-photo extras (all optional):
+        //   border: "stitch" | "corners" | "frame" | "none"  → a printed border inside the photo
+        //   sticker: "⭐"                                    → the emoji in the blank strip on Day Complete
+        //   backStickers: ["🐾", "✨"]                       → up to two stickers on the back corners
+        { rank: 5, src: "photos/d1-5.jpg",
+          caption: "the road home, all lit up",
+          message: "Walked home in the afternoon heat with the sun right on the road. Told you I'd bring you along. Send me snow when you get a minute ❄️",
+          frame: "cream",   focus: "50% 50%", border: "frame", sticker: "☀️", backStickers: ["❄️"],
+          effect: { motion: "drift", emojis: ["☀️","🌤️"], count: 14 } },
+        { rank: 4, src: "photos/d1-4.jpg",
+          caption: "christmas on the sidewalk",
+          message: "A little christmas tree and a gingerbread stand appeared on the sidewalk. Still hot out, but I'm choosing to believe it's December 🎄",
+          frame: "rose",    focus: "50% 50%", border: "stitch", sticker: "🎄", backStickers: ["🍪"],
+          effect: { motion: "fall", emojis: ["🎄","🍪"], count: 16 } },
+        { rank: 3, src: "photos/d1-3.jpg",
+          caption: "she made a bed of my legs",
+          message: "She pushed her head under my legs and fell asleep while I was petting her. I did not move for twenty minutes 🐾",
+          frame: "sage",    focus: "50% 50%", border: "corners", sticker: "🐾", backStickers: ["✨"],
+          effect: { motion: "burst", emojis: ["🐾","✨"], count: 12 } },
+        { rank: 2, src: "photos/d1-2.jpg",
+          caption: "green all the way out",
+          message: "Took the tricycle past the fields. Everything green, the hills far away, and the sky doing that blue thing it does ☁️",
+          frame: "classic", focus: "50% 50%", border: "none", sticker: "🌾", backStickers: ["☁️"],
+          effect: { motion: "rise", emojis: ["🌾","☁️"], count: 14 } },
+        { rank: 1, src: "photos/d1-1.jpg",
+          caption: "she chose the flat frame",
+          message: "A cat fell asleep in the one frame lying flat on the shelf, right in the middle of all our family photos. Didn't knock over a single one. Favourite of the day, obviously 🐱",
+          frame: "kraft",   focus: "50% 50%", border: "frame", sticker: "🐱", backStickers: ["🐾","✨"],
+          effect: { motion: "burst", emojis: ["🐱","✨"], count: 24 } }
       ]
     },
 

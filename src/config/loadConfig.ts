@@ -2,6 +2,7 @@ import { RANKS } from "../constants";
 import type {
   AppConfig,
   AppTexts,
+  BorderName,
   Caption,
   DayConfig,
   EffectConfig,
@@ -14,6 +15,8 @@ import { defaultConfig } from "./defaultConfig";
 
 const VALID_FRAMES: FrameName[] = ["classic", "cream", "rose", "sage", "kraft"];
 const VALID_MOTIONS: MotionName[] = ["rise", "fall", "burst", "drift"];
+const VALID_BORDERS: BorderName[] = ["none", "stitch", "corners", "frame"];
+const FAVOURITE_STICKER = "⭐";
 
 const EFFECT_BY_RANK: Record<number, EffectConfig> = {
   5: { motion: "rise", emojis: ["✨", "🌙"], count: 18 },
@@ -51,6 +54,12 @@ function normalizeEffect(value: unknown, rank: number): EffectConfig {
 function normalizePhoto(raw: unknown, dayId: number, rank: number): PhotoConfig {
   const source = isRecord(raw) ? raw : {};
   const frameValue = source.frame as FrameName;
+  const borderValue = source.border as BorderName;
+  const backStickers = Array.isArray(source.backStickers)
+    ? source.backStickers
+        .filter((item): item is string => typeof item === "string" && item.trim().length > 0)
+        .slice(0, 2)
+    : [];
   return {
     rank,
     src: text(source.src, `photos/d${dayId}-${rank}.jpg`),
@@ -59,6 +68,10 @@ function normalizePhoto(raw: unknown, dayId: number, rank: number): PhotoConfig 
     frame: VALID_FRAMES.includes(frameValue) ? frameValue : "classic",
     focus: text(source.focus, "50% 50%"),
     effect: normalizeEffect(source.effect, rank),
+    border: VALID_BORDERS.includes(borderValue) ? borderValue : "none",
+    // The favourite gets a star unless the owner picks something else.
+    sticker: text(source.sticker, rank === 1 ? FAVOURITE_STICKER : ""),
+    backStickers,
   };
 }
 
