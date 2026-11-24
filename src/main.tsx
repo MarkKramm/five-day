@@ -1,7 +1,5 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import "@fontsource/caveat/latin-500.css";
-import "@fontsource/caveat/latin-700.css";
 import "./index.css";
 import App from "./App";
 import { COLOR_VARS, LAYOUT, PRINT_LAYOUT } from "./constants";

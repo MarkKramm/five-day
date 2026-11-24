@@ -1,0 +1,24 @@
+/**
+ * Caveat, the handwriting the whole gift is set in.
+ *
+ * These are the same latin woff2 files @fontsource ships, declared by hand so
+ * that only the woff2 format is bundled. @fontsource's generated CSS also lists
+ * a legacy .woff copy, which every browser since 2016 ignores; in the
+ * single-file build both formats are inlined as base64, so that unused copy was
+ * costing ~120 kB (a third of the page) on every load.
+ */
+@font-face {
+  font-family: "Caveat";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src: url("../assets/fonts/caveat-latin-500-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Caveat";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url("../assets/fonts/caveat-latin-700-normal.woff2") format("woff2");
+}
