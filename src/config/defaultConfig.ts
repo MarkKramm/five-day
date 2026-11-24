@@ -36,7 +36,7 @@ export const defaultConfig: AppConfig = {
     {
       id: 1,
       open: true,
-      dateLabel: "Nov 22",
+      dateLabel: "Nov 24",
       outro: "Day 1 done. Five photos, kept.",
       photos: [
         {
@@ -49,7 +49,7 @@ export const defaultConfig: AppConfig = {
           focus: "50% 50%",
           border: "frame",
           sticker: "☀️",
-          backStickers: ["☂️"],
+          backStickers: ["☂️", "❄️"],
           effect: { motion: "drift", emojis: ["☀️", "☂️"], count: 16 },
         },
         {
@@ -62,7 +62,7 @@ export const defaultConfig: AppConfig = {
           focus: "50% 50%",
           border: "stitch",
           sticker: "🎄",
-          backStickers: ["🍪"],
+          backStickers: ["🎄", "🍪"],
           effect: { motion: "fall", emojis: ["🎄", "🍪"], count: 16 },
         },
         {
@@ -75,7 +75,7 @@ export const defaultConfig: AppConfig = {
           focus: "50% 50%",
           border: "corners",
           sticker: "🐶",
-          backStickers: ["🐾"],
+          backStickers: ["🐾", "🤍"],
           effect: { motion: "burst", emojis: ["🐾", "✨"], count: 12 },
         },
         {
@@ -88,7 +88,7 @@ export const defaultConfig: AppConfig = {
           focus: "50% 50%",
           border: "none",
           sticker: "☁️",
-          backStickers: ["☁️"],
+          backStickers: ["☁️", "🌸"],
           effect: { motion: "rise", emojis: ["🌾", "☁️"], count: 14 },
         },
         {
@@ -101,7 +101,7 @@ export const defaultConfig: AppConfig = {
           focus: "50% 50%",
           border: "frame",
           sticker: "⭐",
-          backStickers: ["🐾", "✨"],
+          backStickers: ["😺", "✨"],
           effect: { motion: "burst", emojis: ["🐱", "✨"], count: 24 },
         },
       ],

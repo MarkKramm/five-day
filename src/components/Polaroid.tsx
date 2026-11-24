@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef } from "react";
 import type { PhotoConfig } from "../types";
 import { dayAccent } from "../lib/accents";
+import { captionSlice, graphemeCount } from "../lib/text";
 import { tapePattern } from "../lib/tape";
 import { PhotoMedia } from "./PhotoMedia";
 
@@ -35,8 +36,8 @@ export function Polaroid({
   showRays = false,
   lazy = false,
 }: PolaroidProps) {
-  const visibleCaption =
-    captionChars === undefined ? photo.caption : photo.caption.slice(0, Math.max(0, captionChars));
+  const visibleCaption = captionSlice(photo.caption, captionChars);
+  const captionLength = graphemeCount(photo.caption);
   const frameClass = `frame-${photo.frame}`;
   const isBack = Math.abs(Math.round(rotation / 180)) % 2 === 1;
   const pattern = tapePattern(photo.frame);
@@ -116,7 +117,7 @@ export function Polaroid({
             </div>
             <div className="polaroid-caption handwritten">
               <span>{visibleCaption}</span>
-              {writing && captionChars !== undefined && captionChars < photo.caption.length && (
+              {writing && captionChars !== undefined && captionChars < captionLength && (
                 <span className="caption-caret" aria-hidden="true" />
               )}
             </div>

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { PointerEvent as ReactPointerEvent } from "react";
 import { TIMING } from "../constants";
 import { playEffect, prefersReducedMotion } from "../lib/effects";
+import { graphemeCount } from "../lib/text";
 import { sound } from "../lib/sound";
 import type { DayConfig, PhotoConfig } from "../types";
 import { Polaroid } from "../components/Polaroid";
@@ -57,6 +58,7 @@ export function DevelopScreen({ day, photo, tone, fast, onComplete }: DevelopScr
   /** Direction of the last counted stroke; survives lifting the finger. */
   const lastCountedDirection = useRef<1 | -1 | 0>(0);
 
+  const captionLength = graphemeCount(photo.caption);
   const strokesRef = useRef(0);
   const completeRef = useRef(false);
   const dragRef = useRef<DragState | null>(null);
@@ -95,20 +97,25 @@ export function DevelopScreen({ day, photo, tone, fast, onComplete }: DevelopScr
     let written = 0;
     intervalRef.current = window.setInterval(() => {
       written += 1;
-      setCaptionChars(Math.min(photo.caption.length, written));
-      if (written >= photo.caption.length && intervalRef.current) {
+      setCaptionChars(Math.min(captionLength, written));
+      if (written >= captionLength && intervalRef.current) {
         window.clearInterval(intervalRef.current);
         intervalRef.current = null;
       }
-    }, Math.max(18, TIMING.captionWriteMs / Math.max(1, photo.caption.length)));
+    }, Math.max(30, TIMING.captionWriteMs / Math.max(1, captionLength)));
     // Guarantee the full caption is present even if the last interval tick is late.
     captionTimers.current.push(
-      window.setTimeout(() => setCaptionChars(photo.caption.length), TIMING.captionWriteMs + 40),
+      window.setTimeout(() => setCaptionChars(captionLength), TIMING.captionWriteMs + 40),
     );
 
-    const timer = window.setTimeout(onComplete, TIMING.developToFrontDelayMs);
+    // Hold the finished print long enough for the emoji burst to actually play,
+    // so short captions do not rush the next screen in.
+    const timer = window.setTimeout(
+      onComplete,
+      fast ? TIMING.fastDevelopToFrontDelayMs : TIMING.developToFrontDelayMs,
+    );
     timeoutRefs.current.push(timer);
-  }, [onComplete, photo.caption.length, photo.effect, requiredStrokes]);
+  }, [captionLength, fast, onComplete, photo.effect, requiredStrokes]);
 
   useEffect(() => {
     if (complete || dragging) return;

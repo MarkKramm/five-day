@@ -122,14 +122,13 @@ export default function App() {
   }, [initialLoad.existed]);
 
   useEffect(() => {
-    if (!currentDay) return;
-    // Preload all five current-day photos, hidden in memory, for instant printing.
-    currentDay.photos.forEach((photo) => {
-      const image = new Image();
-      image.decoding = "async";
-      image.src = photo.src;
-    });
-  }, [currentDay]);
+    if (!nextPhoto || nextRank === null) return;
+    // Fetch only the print that is about to be developed. The rest of the day
+    // loads lazily, so a slow connection is not asked for five photos at once.
+    const image = new Image();
+    image.decoding = "async";
+    image.src = nextPhoto.src;
+  }, [nextPhoto, nextRank]);
 
   useEffect(
     () => () => {

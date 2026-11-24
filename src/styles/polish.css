@@ -1924,3 +1924,18 @@
   transform: rotate(-2.5deg);
   pointer-events: none;
 }
+
+
+/* ------------------------------------ 38. day-accented album tabs */
+
+/* Each day tab is outline-tinted with that day's ink, the same rose / sage /
+   amber that the date stamp on the back uses. The current tab keeps its amber
+   body, and its little marker bar takes the day colour instead. */
+.album-nav__tab--rose { --tab-accent: #cf8b8b; border-color: #cf8b8b; }
+.album-nav__tab--sage { --tab-accent: #89a97f; border-color: #89a97f; }
+.album-nav__tab--amber { --tab-accent: #d9a45c; border-color: #d9a45c; }
+
+.album-nav__tab.is-current::before {
+  background: var(--tab-accent, var(--amber));
+  box-shadow: 0 0 7px var(--tab-accent, rgba(244, 169, 78, 0.7));
+}
