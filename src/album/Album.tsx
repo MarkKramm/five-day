@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { PointerEvent as ReactPointerEvent } from "react";
 import { TIMING } from "../constants";
+import { dayAccent } from "../lib/accents";
 import { readDayProgress } from "../lib/storage";
 import { sound } from "../lib/sound";
 import type { AlbumEntry, AppConfig, DayConfig, SavedState } from "../types";
@@ -217,6 +218,8 @@ export function Album({
             const isCover = entry.kind === "cover";
             const isLocked = entry.kind === "locked";
             const isExtra = entry.kind === "extra";
+            // Day tabs carry their day's ink accent, like the stamp on the back.
+            const accentClass = entry.day ? ` album-nav__tab--${dayAccent(entry.day.id)}` : "";
             const label = isCover
               ? "Cover"
               : isLocked
@@ -228,7 +231,7 @@ export function Album({
               <button
                 key={`${entry.kind}-nav-${entry.day?.id ?? entry.extra?.id ?? index}`}
                 type="button"
-                className={`album-nav__tab ${isLocked ? "is-locked" : ""} ${
+                className={`album-nav__tab${accentClass} ${isLocked ? "is-locked" : ""} ${
                   page === index ? "is-current" : ""
                 }`}
                 aria-label={

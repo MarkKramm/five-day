@@ -62,11 +62,11 @@ window.FIVE_A_DAY_CONFIG = {
 
     // Days 2 to 7: same shape, open: false, empty or placeholder photo rows.
     // When a day is open, missing photo rows are filled with warm placeholders automatically.
-    { id: 2, open: false, dateLabel: "Nov 23", outro: "", photos: [] },
-    { id: 3, open: false, dateLabel: "Nov 24", outro: "", photos: [] },
-    { id: 4, open: false, dateLabel: "Nov 25", outro: "", photos: [] },
-    { id: 5, open: false, dateLabel: "Nov 26", outro: "", photos: [] },
-    { id: 6, open: false, dateLabel: "Nov 27", outro: "", photos: [] },
-    { id: 7, open: false, dateLabel: "Nov 28", outro: "", photos: [] }
+    { id: 2, open: false, dateLabel: "Nov 25", outro: "", photos: [] },
+    { id: 3, open: false, dateLabel: "Nov 26", outro: "", photos: [] },
+    { id: 4, open: false, dateLabel: "Nov 27", outro: "", photos: [] },
+    { id: 5, open: false, dateLabel: "Nov 28", outro: "", photos: [] },
+    { id: 6, open: false, dateLabel: "Nov 29", outro: "", photos: [] },
+    { id: 7, open: false, dateLabel: "Nov 30", outro: "", photos: [] }
   ]
 };

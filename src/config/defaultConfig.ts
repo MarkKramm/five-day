@@ -36,7 +36,7 @@ export const defaultConfig: AppConfig = {
     {
       id: 1,
       open: true,
-      dateLabel: "Nov 22",
+      dateLabel: "Nov 24",
       outro: "Day 1 done. Five photos, kept.",
       photos: [
         {
