@@ -48,15 +48,15 @@ window.FIVE_A_DAY_CONFIG = {
       photos: [
         // order does not matter; each photo has its own rank (5 is shown first, 1 is the favorite)
         { rank: 5, src: "photos/d1-5.jpg", caption: "your Pov here in PH ☂️☀️🫠", message: "haiii! let's walk and melt with me HAHAHAHA. damn, it's so hot here but at least it gets colder at night. i wish i could go there at your place rn. send me some snow and winter pictures please😭",
-          frame: "cream",   focus: "50% 50%", effect: { motion: "rise", emojis: ["✨","🌞", "☂️", "🚶‍♂️", "🔆"], count: 18 } },
+          frame: "cream",   focus: "50% 50%", backStickers: ["☂️","❄️"], effect: { motion: "rise", emojis: ["✨","🌞", "☂️", "🚶‍♂️", "🔆"], count: 18 } },
         { rank: 4, src: "photos/d1-4.jpg", caption: "🎄✨🌞", message: "Saw this randomly while walking and it's a beautiful sight. well, i'm not a good photographer but still wanna share this sights with you haha ",
-          frame: "classic", focus: "50% 45%", effect: { motion: "fall", emojis: ["🎄","🌳", "🍂", "✨"], count: 18 } },
+          frame: "classic", focus: "50% 45%", backStickers: ["🎄","🍪"], effect: { motion: "fall", emojis: ["🎄","🌳", "🍂", "✨"], count: 18 } },
         { rank: 3, src: "photos/d1-3.jpg", caption: "Lala🐶", message: "she's so cutieee. I was shocked when she did that",
-          frame: "rose",    focus: "50% 50%", effect: { motion: "burst", emojis: ["🐕", "🐾", "🐶", "🤍",  "✨"], count: 18 } },
+          frame: "rose",    focus: "50% 50%", backStickers: ["🐾","🤍"], effect: { motion: "burst", emojis: ["🐕", "🐾", "🐶", "🤍",  "✨"], count: 18 } },
         { rank: 2, src: "photos/d1-2.jpg", caption: "🖼️⛅", message: "A Beautiful Day",
-          frame: "sage",    focus: "50% 55%", effect: { motion: "drift", emojis: ["🖼️","📸","🌸","🌎","🛣️","⛅"], count: 18 } },
+          frame: "sage",    focus: "50% 55%", backStickers: ["☁️","🌸"], effect: { motion: "drift", emojis: ["🖼️","📸","🌸","🌎","🛣️","⛅"], count: 18 } },
         { rank: 1, src: "photos/d1-1.jpg", caption: "My favourite today", message: "We were so shocked when we see her sleeping there HAHAHA. they're so cute and so random. She didn't even hit the frames around her. bwahahah 😹😸",
-          frame: "kraft",   focus: "50% 50%", effect: { motion: "burst", emojis: ["😺","✨","📸","🐾","🐈","😻","🖼️","🧑‍🎓"], count: 24 } }
+          frame: "kraft",   focus: "50% 50%", backStickers: ["😺","✨"], effect: { motion: "burst", emojis: ["😺","✨","📸","🐾","🐈","😻","🖼️","🧑‍🎓"], count: 24 } }
       ]
     },
 
