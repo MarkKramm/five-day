@@ -288,7 +288,7 @@
   padding-left: 8px;
   color: var(--gold);
   font-family: var(--font-hand);
-  font-size: clamp(40px, 12vw, 48px);
+  font-size: clamp(44px, 16vw, 72px);
   font-weight: 700;
   line-height: 1;
   text-align: center;

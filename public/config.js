@@ -47,15 +47,15 @@ window.FIVE_A_DAY_CONFIG = {
       outro: "Day 1 done. Five photos, kept.",
       photos: [
         // order does not matter; each photo has its own rank (5 is shown first, 1 is the favorite)
-        { rank: 5, src: "photos/d1-5.jpg", caption: "your Pov here in PH ☂️☀️🫠", message: "haiii! let's walk and melt with me HAHAHAHA. damn, it's so hot here but at least it gets colder at night. i wish i could go there at your place rn. send me some snow and winter pictures please😭",
+        { rank: 5, src: "photos/d1-5.jpg", caption: "your Pov here in PH ☂️☀️🫠", message: "Haiii Saida! let's walk and melt with me HAHAHAHA. damn, it's so hot out here but at least it gets colder at night. i wish i could go there at your place right now. Can i teleport there and chill for a while😭. Send me some snow and winter pictures, My beautiful friend please😭",
           frame: "cream",   focus: "50% 50%", backStickers: ["☂️","❄️"], effect: { motion: "rise", emojis: ["✨","🌞", "☂️", "🚶‍♂️", "🔆"], count: 18 } },
-        { rank: 4, src: "photos/d1-4.jpg", caption: "🎄✨🌞", message: "Saw this randomly while walking and it's a beautiful sight. well, i'm not a good photographer but still wanna share this sights with you haha ",
+        { rank: 4, src: "photos/d1-4.jpg", caption: "🎄✨🌞", message: "Saw this randomly while walking and it's a beautiful sight. well, i'm not a good photographer but still wanna share this cute sights with you haha ",
           frame: "classic", focus: "50% 45%", backStickers: ["🎄","🍪"], effect: { motion: "fall", emojis: ["🎄","🌳", "🍂", "✨"], count: 18 } },
-        { rank: 3, src: "photos/d1-3.jpg", caption: "Lala🐶", message: "she's so cutieee. I was shocked when she did that",
+        { rank: 3, src: "photos/d1-3.jpg", caption: "Lala🐶", message: "she's so cutieee. I was shocked when she went between my legs hahaha. she's also pregnant btw!! i'm so excited to see her puppies 🐶",
           frame: "rose",    focus: "50% 50%", backStickers: ["🐾","🤍"], effect: { motion: "burst", emojis: ["🐕", "🐾", "🐶", "🤍",  "✨"], count: 18 } },
-        { rank: 2, src: "photos/d1-2.jpg", caption: "🖼️⛅", message: "A Beautiful Day",
+        { rank: 2, src: "photos/d1-2.jpg", caption: "A Beautiful Day🖼️⛅", message: "Life is beautiful here in the province. I love the greenery, animals and the fresh air compare to our old busy and crowded city life :)",
           frame: "sage",    focus: "50% 55%", backStickers: ["☁️","🌸"], effect: { motion: "drift", emojis: ["🖼️","📸","🌸","🌎","🛣️","⛅"], count: 18 } },
-        { rank: 1, src: "photos/d1-1.jpg", caption: "My favourite today", message: "We were so shocked when we see her sleeping there HAHAHA. they're so cute and so random. She didn't even hit the frames around her. bwahahah 😹😸",
+        { rank: 1, src: "photos/d1-1.jpg", caption: "My favourite today😻✨", message: "We were so shocked when we saw her sleeping there HAHAHA. she's so cute and so random. She didn't even hit the frames around her. bwahahah 😹😸. Also i love how she randomly drop her body to the floor like it's a soft bed 😄",
           frame: "kraft",   focus: "50% 50%", backStickers: ["😺","✨"], effect: { motion: "burst", emojis: ["😺","✨","📸","🐾","🐈","😻","🖼️","🧑‍🎓"], count: 24 } }
       ]
     },
