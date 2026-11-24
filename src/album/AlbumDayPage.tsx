@@ -14,6 +14,12 @@ interface AlbumDayPageProps {
   tone: "warm" | "none";
   /** The page currently under the reader's eye: replays the settle moment. */
   active?: boolean;
+  /**
+   * The page she is about to swipe to. Its photos start fetching while the
+   * previous page is still on screen, so the swipe itself does not begin five
+   * downloads halfway through the animation.
+   */
+  eager?: boolean;
   onOpenPhoto: (rank: number) => void;
 }
 
@@ -23,12 +29,14 @@ function MiniPolaroid({
   index,
   favorite,
   accent,
+  eager,
 }: {
   photo: PhotoConfig;
   tone: "warm" | "none";
   index: number;
   favorite: boolean;
   accent: string;
+  eager: boolean;
 }) {
   return (
     <div
@@ -38,7 +46,7 @@ function MiniPolaroid({
       {favorite && <span className="mini-sunburst" aria-hidden="true" />}
       <div className={`mini-polaroid frame-${photo.frame}`}>
         <div className="mini-photo">
-          <PhotoMedia photo={photo} tone={tone} lazy />
+          <PhotoMedia photo={photo} tone={tone} lazy={!eager} />
           <span className={`mini-mounts mini-mounts--${accent}`} aria-hidden="true" />
         </div>
         <span className="mini-polaroid__strip" aria-hidden="true" />
@@ -60,7 +68,14 @@ function MiniPolaroid({
   );
 }
 
-export function AlbumDayPage({ day, progress, tone, active = false, onOpenPhoto }: AlbumDayPageProps) {
+export function AlbumDayPage({
+  day,
+  progress,
+  tone,
+  active = false,
+  eager = false,
+  onOpenPhoto,
+}: AlbumDayPageProps) {
   const accent = dayAccent(day.id);
   return (
     <div className={`album-page album-day-page ${active ? "is-settling" : ""}`}>
@@ -99,6 +114,7 @@ export function AlbumDayPage({ day, progress, tone, active = false, onOpenPhoto 
                     index={index}
                     favorite={favorite}
                     accent={accent}
+                    eager={eager}
                   />
                 </button>
               ) : (

@@ -28,3 +28,6 @@ Thumbs.db
 
 # OpenCode workspace files
 .opencode/
+
+# Scratch harnesses for local DOM checks
+.smoke/
