@@ -1,0 +1,13 @@
+# Netlify reads this file from the folder you deploy, so it works with drag-and-drop
+# deploys. Nothing here is required for the site to work - it only changes caching.
+
+# Netlify's default for static files is "public, max-age=0, must-revalidate", which
+# makes the browser re-check every photo on every visit: five conditional requests
+# before the album prints can appear, even for photos it already has. A finished
+# day's photos never change, so keep them for an hour and let the browser keep
+# showing its copy while it checks in the background.
+#
+# If you replace a photo, either keep the filename (she sees the new one within the
+# hour) or give it a new filename (she sees it immediately).
+/photos/*
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
