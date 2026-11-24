@@ -10,7 +10,7 @@
   position: relative;
   flex: 0 0 auto;
   width: min(100%, 330px);
-  margin: auto auto 0;
+  margin: clamp(12px, 3dvh, 24px) auto 0;
   padding: 7px 6px;
   border-radius: 4px;
   background:
@@ -875,13 +875,11 @@
 
 /* ------------------------------------------------- 14. washi tape patterns */
 
-.tape--plain,
-.mini-tape--plain {
+.tape--plain {
   background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.24), transparent);
 }
 
-.tape--stripe,
-.mini-tape--stripe {
+.tape--stripe {
   background-image:
     repeating-linear-gradient(
       45deg,
@@ -891,16 +889,14 @@
     linear-gradient(180deg, rgba(255, 255, 255, 0.2), transparent);
 }
 
-.tape--dot,
-.mini-tape--dot {
+.tape--dot {
   background-image:
     radial-gradient(circle at 2px 2px, rgba(255, 255, 255, 0.5) 1px, transparent 1.3px),
     linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent);
   background-size: 6px 6px, 100% 100%;
 }
 
-.tape--gingham,
-.mini-tape--gingham {
+.tape--gingham {
   background-image:
     repeating-linear-gradient(
       0deg,
@@ -914,8 +910,7 @@
     );
 }
 
-.tape--kraft,
-.mini-tape--kraft {
+.tape--kraft {
   background-image:
     repeating-linear-gradient(
       90deg,
@@ -1330,14 +1325,13 @@
   position: absolute;
   top: 0;
   z-index: 12;
-  left: calc(72% - var(--page-index, 0) * 2.4%);
+  right: 60px;
   width: 15px;
   height: 58px;
   pointer-events: none;
   background: linear-gradient(90deg, #a94e4e, #dc8484 42%, #a14444);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.34);
   transform-origin: 50% 0;
-  transition: left 320ms cubic-bezier(0.33, 0.08, 0.25, 1);
   animation: ribbonSway 6s ease-in-out infinite;
 }
 
@@ -1587,6 +1581,7 @@
 @media (max-height: 700px) {
   .intro-strip {
     width: min(100%, 300px);
+    margin-top: 10px;
     padding: 5px;
   }
 
@@ -1672,4 +1667,86 @@
   .intro-title__ink {
     clip-path: none !important;
   }
+}
+
+
+/* ------------------------------------- 28. handwritten buttons + album nav */
+
+.hold-button__label {
+  font-family: var(--font-hand);
+  font-size: 25px;
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: 0.015em;
+  padding-top: 1px;
+}
+
+.complete-button {
+  font-family: var(--font-hand);
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+}
+
+.album-nav__tab {
+  font-family: var(--font-hand);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* ---------------------------------------- 29. tape: a little more presence */
+
+/* Washi reads as paper, so it needs a body under its colour stripes. The
+   pattern layers above stay untouched; only the base colour firms up. */
+.tape {
+  background-color: rgba(253, 240, 212, 0.86);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.16);
+}
+
+.mini-tape {
+  background-color: rgba(253, 240, 212, 0.94);
+  border-color: rgba(255, 255, 255, 0.42);
+  box-shadow:
+    0 1px 3px rgba(75, 52, 30, 0.24),
+    inset 0 0 0 0.5px rgba(160, 126, 82, 0.28);
+}
+
+.album-day-page .mini-tape {
+  border-color: rgba(255, 255, 255, 0.48);
+}
+
+/* empty slots keep a lighter, ghosted piece so filled prints read stronger */
+.mini-empty__tape {
+  border-color: rgba(255, 255, 255, 0.32);
+  background: rgba(246, 228, 194, 0.58);
+  box-shadow: 0 1px 2px rgba(75, 52, 30, 0.12);
+}
+
+.polaroid-back-tape {
+  background-color: rgba(255, 245, 220, 0.58);
+}
+
+/* --------------------------------------------------- 30. album cover icon */
+
+.album-icon {
+  width: 26px;
+  height: 24px;
+}
+
+.album-icon__photo-paper {
+  fill: var(--polaroid);
+}
+
+.album-icon__photo-image {
+  fill: var(--sage);
+}
+
+.album-icon__sun {
+  fill: var(--amber);
+}
+
+.album-icon__ribbon {
+  fill: var(--rose);
 }

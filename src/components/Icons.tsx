@@ -2,17 +2,57 @@ export function AlbumIcon({ className = "" }: { className?: string }) {
   return (
     <svg
       className={className}
-      viewBox="0 0 28 24"
+      viewBox="0 0 28 26"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.7"
+      strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
     >
-      <path d="M14 6.2C11.7 4.7 8.6 4 4.3 4.2v13.4c4.1-.1 7.2.5 9.7 2.2 2.5-1.7 5.6-2.3 9.7-2.2V4.2C19.4 4 16.3 4.7 14 6.2Z" />
-      <path d="M14 6.2v13.6" />
-      <path d="M7.2 8.3c1.7 0 3.2.3 4.4.9M7.2 11.5c1.7 0 3.2.3 4.4.9M16.4 9.2c1.2-.6 2.7-.9 4.4-.9M16.4 12.4c1.2-.6 2.7-.9 4.4-.9" />
+      {/* cover + stitched spine */}
+      <rect x="4.4" y="2.8" width="17.2" height="18.8" rx="2.9" />
+      <path d="M8.5 3.1v18.2" opacity=".42" strokeWidth="1.1" />
+      <circle cx="6.5" cy="7.6" r=".55" fill="currentColor" stroke="none" opacity=".5" />
+      <circle cx="6.5" cy="11.6" r=".55" fill="currentColor" stroke="none" opacity=".5" />
+      <circle cx="6.5" cy="15.6" r=".55" fill="currentColor" stroke="none" opacity=".5" />
+
+      {/* a print tucked into the cover */}
+      <g transform="rotate(-6 13 13.4)">
+        <rect
+          className="album-icon__photo-paper"
+          x="9.6"
+          y="6.2"
+          width="9.6"
+          height="11.6"
+          rx="1"
+          stroke="none"
+        />
+        <rect
+          className="album-icon__photo-image"
+          x="10.7"
+          y="7.1"
+          width="7.4"
+          height="6.9"
+          rx=".4"
+          stroke="none"
+        />
+        <circle className="album-icon__sun" cx="16.1" cy="9" r=".8" stroke="none" />
+        <path
+          d="M11.2 12.1l1.6-1.9 1.3 1.5 1-1.1 1.6 2"
+          stroke="rgba(59, 47, 42, 0.45)"
+          strokeWidth=".5"
+        />
+        <path d="M10.7 16h5.4" stroke="rgba(59, 47, 42, 0.22)" strokeWidth=".6" />
+      </g>
+
+      {/* rose bookmark ribbon */}
+      <path
+        className="album-icon__ribbon"
+        d="M6.7 19.9h2.5v5.5l-1.25-1.2L6.7 25.4z"
+        stroke="none"
+      />
+      <path d="M7.95 20.1v4.6" stroke="rgba(60, 30, 30, 0.28)" strokeWidth=".6" />
     </svg>
   );
 }
