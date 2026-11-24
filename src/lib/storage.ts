@@ -5,7 +5,7 @@ export const STORAGE_KEY = "fiveADay.v1";
 const emptyDay = (): DayProgress => ({ cameraDone: false, kept: [], done: false });
 
 export function emptySavedState(sound = true): SavedState {
-  return { sound, days: {} };
+  return { sound, days: {}, albumCoverShown: false, albumIntroShown: false };
 }
 
 function safeParse(raw: string | null): { state: SavedState; existed: boolean } {
@@ -34,7 +34,15 @@ function safeParse(raw: string | null): { state: SavedState; existed: boolean } 
       }
     }
     // First visits default to sound ON; an explicit saved mute still wins.
-    return { state: { sound: record.sound !== false, days }, existed: true };
+    return {
+      state: {
+        sound: record.sound !== false,
+        days,
+        albumCoverShown: record.albumCoverShown === true,
+        albumIntroShown: record.albumIntroShown === true,
+      },
+      existed: true,
+    };
   } catch {
     return { state: emptySavedState(), existed: true };
   }

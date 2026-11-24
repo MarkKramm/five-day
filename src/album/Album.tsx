@@ -18,6 +18,8 @@ interface AlbumProps {
   lockedDay: DayConfig | null;
   saved: SavedState;
   initialDayId?: number;
+  /** When set, the cover holds for a beat and then slides to this day once. */
+  autoAdvanceDayId?: number;
   onClose: () => void;
 }
 
@@ -32,6 +34,7 @@ export function Album({
   lockedDay,
   saved,
   initialDayId,
+  autoAdvanceDayId,
   onClose,
 }: AlbumProps) {
   const pages = useMemo<AlbumEntry[]>(() => {
@@ -51,6 +54,7 @@ export function Album({
   const [viewer, setViewer] = useState<ViewerState | null>(null);
   const [turn, setTurn] = useState<{ key: number; dir: number } | null>(null);
   const pointer = useRef<{ id: number; x: number; y: number } | null>(null);
+  const pageRef = useRef(page);
   const suppressTapUntil = useRef(0);
   const turnTimer = useRef<number | null>(null);
 
@@ -67,12 +71,30 @@ export function Album({
     setPage(clamped);
   };
 
+  useEffect(() => {
+    pageRef.current = page;
+  }, [page]);
+
   useEffect(
     () => () => {
       if (turnTimer.current) window.clearTimeout(turnTimer.current);
     },
     [],
   );
+
+  // The one-time cover beat: hold on the cover, then slide to the day.
+  useEffect(() => {
+    if (autoAdvanceDayId === undefined) return;
+    const index = pages.findIndex(
+      (entry) => entry.kind === "day" && entry.day?.id === autoAdvanceDayId,
+    );
+    if (index <= 0) return;
+    const timer = window.setTimeout(() => {
+      if (pageRef.current === 0) movePage(index);
+    }, TIMING.albumIntroDelayMs);
+    return () => window.clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoAdvanceDayId]);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {

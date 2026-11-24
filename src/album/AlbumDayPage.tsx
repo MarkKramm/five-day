@@ -4,6 +4,7 @@ import type { DayConfig, DayProgress, PhotoConfig } from "../types";
 import { PhotoMedia } from "../components/PhotoMedia";
 import { CameraGlyph } from "../components/Icons";
 import { PageDoodles } from "../components/PageDoodles";
+import { dayAccent } from "../lib/accents";
 
 const TILTS = [-3, 2, 1.5, -2, 0];
 
@@ -21,11 +22,13 @@ function MiniPolaroid({
   tone,
   index,
   favorite,
+  accent,
 }: {
   photo: PhotoConfig;
   tone: "warm" | "none";
   index: number;
   favorite: boolean;
+  accent: string;
 }) {
   return (
     <div
@@ -36,6 +39,7 @@ function MiniPolaroid({
       <div className={`mini-polaroid frame-${photo.frame}`}>
         <div className="mini-photo">
           <PhotoMedia photo={photo} tone={tone} lazy />
+          <span className={`mini-mounts mini-mounts--${accent}`} aria-hidden="true" />
         </div>
         <span className="mini-polaroid__strip" aria-hidden="true" />
         <span
@@ -57,6 +61,7 @@ function MiniPolaroid({
 }
 
 export function AlbumDayPage({ day, progress, tone, active = false, onOpenPhoto }: AlbumDayPageProps) {
+  const accent = dayAccent(day.id);
   return (
     <div className={`album-page album-day-page ${active ? "is-settling" : ""}`}>
       <PageDoodles seed={day.id} />
@@ -88,7 +93,13 @@ export function AlbumDayPage({ day, progress, tone, active = false, onOpenPhoto 
                   onClick={() => onOpenPhoto(rank)}
                   aria-label={`View photo number ${rank}`}
                 >
-                  <MiniPolaroid photo={photo} tone={tone} index={index} favorite={favorite} />
+                  <MiniPolaroid
+                    photo={photo}
+                    tone={tone}
+                    index={index}
+                    favorite={favorite}
+                    accent={accent}
+                  />
                 </button>
               ) : (
                 <div
