@@ -1684,11 +1684,23 @@
     linear-gradient(160deg, rgba(255, 255, 255, 0.1), transparent 60%);
 }
 
-/* The note is written across the whole sheet, from the margin line outward.
-   It grows downward and is auto-fitted to the paper by Polaroid.tsx. */
-.polaroid-message {
+/* The note is written across the whole sheet, from the margin line outward,
+   and is centered vertically on the paper: a short line sits in the middle,
+   a long one fills the sheet. Polaroid.tsx fits the size to the paper. */
+.polaroid-note-area {
+  position: relative;
   flex: 1 1 auto;
   min-height: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.polaroid-message {
+  flex: 0 0 auto;
   width: 100%;
   max-width: 100%;
   padding: 0 3px 0 8px;
@@ -1699,7 +1711,6 @@
   text-align: left;
   transform: rotate(-0.35deg);
   display: block;
-  overflow: hidden;
   overflow-wrap: break-word;
   word-break: normal;
 }

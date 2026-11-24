@@ -33,6 +33,7 @@ export default function App() {
   const [state, setState] = useState<RitualState>("INTRO");
   const [albumOpen, setAlbumOpen] = useState(false);
   const [albumInitialDayId, setAlbumInitialDayId] = useState<number | undefined>(undefined);
+  const [albumAutoDayId, setAlbumAutoDayId] = useState<number | undefined>(undefined);
   const [toast, setToast] = useState<{ id: number; text: string } | null>(null);
   const [bounceKey, setBounceKey] = useState(0);
   const albumIconRef = useRef<HTMLButtonElement | null>(null);
@@ -171,8 +172,30 @@ export default function App() {
     updateSaved((previous) => ({ ...previous, sound: next }));
   }
 
-  function openAlbumFor(dayId?: number) {
-    setAlbumInitialDayId(dayId ?? effectiveOpenDays[effectiveOpenDays.length - 1]?.id);
+  /**
+   * The album has two first-time moments: a peek mid-day starts on the cover
+   * once, and the end-of-day "Open album" shows the cover for a beat before
+   * sliding to the day, also once. After that it opens straight on the day.
+   */
+  function openAlbumFor(dayId?: number, options?: { intro?: boolean }) {
+    const target = dayId ?? effectiveOpenDays[effectiveOpenDays.length - 1]?.id;
+    if (options?.intro && !saved.albumIntroShown) {
+      setAlbumInitialDayId(undefined);
+      setAlbumAutoDayId(target);
+      // The cover has now been seen, so a mid-day peek goes straight to the day.
+      updateSaved((previous) => ({
+        ...previous,
+        albumIntroShown: true,
+        albumCoverShown: true,
+      }));
+    } else if (!options?.intro && !saved.albumCoverShown) {
+      setAlbumInitialDayId(undefined);
+      setAlbumAutoDayId(undefined);
+      updateSaved((previous) => ({ ...previous, albumCoverShown: true }));
+    } else {
+      setAlbumInitialDayId(target);
+      setAlbumAutoDayId(undefined);
+    }
     setAlbumOpen(true);
   }
 
@@ -320,7 +343,7 @@ export default function App() {
           <DayCompleteScreen
             day={currentDay}
             streak={weekItems}
-            onOpenAlbum={() => openAlbumFor(currentDay.id)}
+            onOpenAlbum={() => openAlbumFor(currentDay.id, { intro: true })}
           />
         )}
 
@@ -344,7 +367,11 @@ export default function App() {
           lockedDay={lockedDay}
           saved={saved}
           initialDayId={albumInitialDayId}
-          onClose={() => setAlbumOpen(false)}
+          autoAdvanceDayId={albumAutoDayId}
+          onClose={() => {
+            setAlbumOpen(false);
+            setAlbumAutoDayId(undefined);
+          }}
         />
       )}
 

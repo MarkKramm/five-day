@@ -16,7 +16,23 @@ import { defaultConfig } from "./defaultConfig";
 const VALID_FRAMES: FrameName[] = ["classic", "cream", "rose", "sage", "kraft"];
 const VALID_MOTIONS: MotionName[] = ["rise", "fall", "burst", "drift"];
 const VALID_BORDERS: BorderName[] = ["none", "stitch", "corners", "frame"];
-const FAVOURITE_STICKER = "⭐";
+
+/** Each print gets a border and a sticker even when the owner's config omits them. */
+const BORDER_BY_RANK: Record<number, BorderName> = {
+  5: "frame",
+  4: "stitch",
+  3: "corners",
+  2: "none",
+  1: "frame",
+};
+
+const STICKER_BY_RANK: Record<number, string> = {
+  5: "☀️",
+  4: "🎄",
+  3: "🐶",
+  2: "☁️",
+  1: "⭐",
+};
 
 const EFFECT_BY_RANK: Record<number, EffectConfig> = {
   5: { motion: "rise", emojis: ["✨", "🌙"], count: 18 },
@@ -68,9 +84,8 @@ function normalizePhoto(raw: unknown, dayId: number, rank: number): PhotoConfig 
     frame: VALID_FRAMES.includes(frameValue) ? frameValue : "classic",
     focus: text(source.focus, "50% 50%"),
     effect: normalizeEffect(source.effect, rank),
-    border: VALID_BORDERS.includes(borderValue) ? borderValue : "none",
-    // The favourite gets a star unless the owner picks something else.
-    sticker: text(source.sticker, rank === 1 ? FAVOURITE_STICKER : ""),
+    border: VALID_BORDERS.includes(borderValue) ? borderValue : (BORDER_BY_RANK[rank] ?? "none"),
+    sticker: text(source.sticker, STICKER_BY_RANK[rank] ?? ""),
     backStickers,
   };
 }

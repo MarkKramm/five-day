@@ -21,10 +21,12 @@ export function DayCompleteScreen({ day, streak, onOpenAlbum }: DayCompleteScree
   const confettiRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    // The confetti carries the day's own emoji flavour when there is one.
+    const dayEmojis = [...new Set(day.photos.flatMap((photo) => photo.effect.emojis))].slice(0, 4);
     const timer = window.setTimeout(() => {
       playEffect(confettiRef.current, {
         motion: "fall",
-        emojis: ["🎞", "✨", "⭐", "📷"],
+        emojis: dayEmojis.length ? dayEmojis : ["🎞", "✨", "⭐", "📷"],
         count: 28,
       });
     }, 180);
@@ -93,6 +95,9 @@ export function DayCompleteScreen({ day, streak, onOpenAlbum }: DayCompleteScree
             </div>
           </div>
         )}
+        <span className="complete-scribble handwritten" aria-hidden="true">
+          day {day.id}, kept
+        </span>
         <button type="button" className="btn btn-primary btn-blossom complete-button" onClick={onOpenAlbum}>
           <span className="btn-shine" aria-hidden="true" />
           <span>{texts.openAlbum}</span>

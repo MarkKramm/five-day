@@ -100,6 +100,10 @@ export interface DayProgress {
 export interface SavedState {
   sound: boolean;
   days: Record<string, DayProgress>;
+  /** The album has been opened on its cover once. */
+  albumCoverShown: boolean;
+  /** The cover-then-day slide at the end of a day has played once. */
+  albumIntroShown: boolean;
 }
 
 export interface TestOptions {

@@ -86,6 +86,8 @@ export const TIMING = {
   flipMs: 500,
   keepFlightMs: 600,
   pageSlideMs: 300,
+  /** How long the album sits on its cover before sliding to the day. */
+  albumIntroDelayMs: 1000,
   toastMs: 1200,
   flipSwipeThresholdPx: 40,
   albumSwipeThresholdPx: 42,

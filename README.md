@@ -120,8 +120,8 @@ You can open a day with no photos filled in: it shows warm camera placeholders i
 - **Crop:** `focus` controls which part of the photo is visible in the square, for example `"50% 30%"` moves the crop up. `"50% 50%"` is centred.
 - **Frame:** `frame` can be `"classic"`, `"cream"`, `"rose"`, `"sage"` or `"kraft"`.
 - **Effect:** `motion` can be `"rise"`, `"fall"`, `"burst"` or `"drift"`; `emojis` is a list; `count` is how many (maximum 40).
-- **Border:** `border` prints a little frame inside the photo: `"stitch"` (dashed stitch), `"corners"` (four photo-mount corners), `"frame"` (cream mat) or `"none"`.
-- **Sticker:** `sticker` is the single emoji that sits in the blank strip under the hanging print on Day Complete. The favourite photo falls back to `⭐` when you leave it out.
+- **Border:** `border` prints a little frame inside the photo: `"stitch"` (dashed stitch), `"corners"` (four photo-mount corners), `"frame"` (cream mat) or `"none"`. Unset, ranks 5 and 1 get `"frame"`, 4 `"stitch"`, 3 `"corners"` and 2 `"none"`.
+- **Sticker:** `sticker` is the single emoji that sits in the blank strip under the hanging print on Day Complete. Unset, it falls back to `☀️` for rank 5, `🎄` for 4, `🐶` for 3, `☁️` for 2 and `⭐` for the favourite.
 - **Back stickers:** `backStickers` takes up to two emojis and tucks them into the top corners of the polaroid back.
 - **Text must stay as plain text.** Do not put HTML tags inside config text.
 

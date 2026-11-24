@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef } from "react";
 import type { PhotoConfig } from "../types";
+import { dayAccent } from "../lib/accents";
 import { tapePattern } from "../lib/tape";
 import { PhotoMedia } from "./PhotoMedia";
 
@@ -40,29 +41,31 @@ export function Polaroid({
   const isBack = Math.abs(Math.round(rotation / 180)) % 2 === 1;
   const pattern = tapePattern(photo.frame);
   const backStickers = photo.backStickers ?? [];
+  const noteAreaRef = useRef<HTMLDivElement | null>(null);
   const messageRef = useRef<HTMLParagraphElement | null>(null);
 
   /**
-   * The back is a sheet of paper: the note should fill it and only step down a
-   * size when it genuinely would not fit. Measuring beats guessing from length.
+   * The note is centered on the paper like real handwriting: a short line sits
+   * in the middle, a long one fills the sheet and only steps down a size when
+   * it genuinely would not fit.
    */
   useLayoutEffect(() => {
-    const element = messageRef.current;
-    if (!element) return;
+    const area = noteAreaRef.current;
+    const message = messageRef.current;
+    if (!area || !message) return;
 
     const fit = () => {
       // Not laid out yet (hidden screen / zero-height parent): leave it be.
-      if (!element.clientHeight) return;
+      if (!area.clientHeight) return;
       const max = 22;
       const min = 12;
       let size = max;
-      element.style.setProperty("--back-font", `${size}px`);
-      while (size > min && element.scrollHeight > element.clientHeight + 1) {
+      area.style.setProperty("--back-font", `${size}px`);
+      while (size > min && message.offsetHeight > area.clientHeight + 1) {
         size = Math.max(min, size - 0.5);
-        element.style.setProperty("--back-font", `${size}px`);
+        area.style.setProperty("--back-font", `${size}px`);
       }
-      const overflows = element.scrollHeight > element.clientHeight + 1;
-      element.classList.toggle("is-cropped", overflows);
+      area.classList.toggle("is-cropped", message.offsetHeight > area.clientHeight + 1);
     };
 
     fit();
@@ -70,7 +73,7 @@ export function Polaroid({
     let observer: ResizeObserver | undefined;
     if (typeof ResizeObserver !== "undefined") {
       observer = new ResizeObserver(fit);
-      observer.observe(element);
+      observer.observe(area);
     }
     const fonts = document.fonts;
     if (fonts && fonts.status !== "loaded") {
@@ -140,13 +143,18 @@ export function Polaroid({
                   {symbol}
                 </span>
               ))}
-              <p className="polaroid-message handwritten" ref={messageRef}>
-                {photo.message}
-              </p>
+              <div className="polaroid-note-area" ref={noteAreaRef}>
+                <p className="polaroid-message handwritten" ref={messageRef}>
+                  {photo.message}
+                </p>
+              </div>
               <span className="polaroid-stamp">
                 #{photo.rank} of 5 · Day {dayId}
               </span>
-              <span className="polaroid-ink-stamp" aria-hidden="true">
+              <span
+                className={`polaroid-ink-stamp polaroid-ink-stamp--${dayAccent(dayId)}`}
+                aria-hidden="true"
+              >
                 <span className="polaroid-ink-stamp__ring" />
                 <span className="polaroid-ink-stamp__day">DAY {dayId}</span>
                 <span className="polaroid-ink-stamp__date handwritten">{dateLabel}</span>
