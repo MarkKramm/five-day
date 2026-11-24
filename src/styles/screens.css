@@ -1669,8 +1669,8 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: stretch;
+  justify-content: flex-start;
   padding: 16px 9px 45px;
   border-radius: 2px;
   background:
@@ -1684,18 +1684,21 @@
     linear-gradient(160deg, rgba(255, 255, 255, 0.1), transparent 60%);
 }
 
+/* The note is written across the whole sheet, from the margin line outward.
+   It grows downward and is auto-fitted to the paper by Polaroid.tsx. */
 .polaroid-message {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
   max-width: 100%;
+  padding: 0 3px 0 8px;
   color: var(--ink);
-  font-size: var(--back-font, 21px);
+  font-size: var(--back-font, 20px);
   font-weight: 500;
-  line-height: 1.22;
-  text-align: center;
+  line-height: 1.2;
+  text-align: left;
   transform: rotate(-0.35deg);
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 5;
-  line-clamp: 5;
+  display: block;
   overflow: hidden;
   overflow-wrap: break-word;
   word-break: normal;

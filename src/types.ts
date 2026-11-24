@@ -1,5 +1,6 @@
 export type FrameName = "classic" | "cream" | "rose" | "sage" | "kraft";
 export type MotionName = "rise" | "fall" | "burst" | "drift";
+export type BorderName = "none" | "stitch" | "corners" | "frame";
 
 export interface EffectConfig {
   motion: MotionName;
@@ -15,6 +16,12 @@ export interface PhotoConfig {
   frame: FrameName;
   focus: string;
   effect: EffectConfig;
+  /** Decorative border printed inside the photo window. */
+  border?: BorderName;
+  /** One emoji in the blank strip under the hanging print on Day Complete. */
+  sticker?: string;
+  /** Up to two little stickers tucked into the corners of the back. */
+  backStickers?: string[];
 }
 
 export interface AppTexts {

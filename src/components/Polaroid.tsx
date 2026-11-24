@@ -1,4 +1,4 @@
-import type { CSSProperties } from "react";
+import { useLayoutEffect, useRef } from "react";
 import type { PhotoConfig } from "../types";
 import { tapePattern } from "../lib/tape";
 import { PhotoMedia } from "./PhotoMedia";
@@ -36,10 +36,49 @@ export function Polaroid({
 }: PolaroidProps) {
   const visibleCaption =
     captionChars === undefined ? photo.caption : photo.caption.slice(0, Math.max(0, captionChars));
-  const backSize = photo.message.length > 160 ? 16 : photo.message.length > 110 ? 18 : 21;
   const frameClass = `frame-${photo.frame}`;
   const isBack = Math.abs(Math.round(rotation / 180)) % 2 === 1;
   const pattern = tapePattern(photo.frame);
+  const backStickers = photo.backStickers ?? [];
+  const messageRef = useRef<HTMLParagraphElement | null>(null);
+
+  /**
+   * The back is a sheet of paper: the note should fill it and only step down a
+   * size when it genuinely would not fit. Measuring beats guessing from length.
+   */
+  useLayoutEffect(() => {
+    const element = messageRef.current;
+    if (!element) return;
+
+    const fit = () => {
+      // Not laid out yet (hidden screen / zero-height parent): leave it be.
+      if (!element.clientHeight) return;
+      const max = 22;
+      const min = 12;
+      let size = max;
+      element.style.setProperty("--back-font", `${size}px`);
+      while (size > min && element.scrollHeight > element.clientHeight + 1) {
+        size = Math.max(min, size - 0.5);
+        element.style.setProperty("--back-font", `${size}px`);
+      }
+      const overflows = element.scrollHeight > element.clientHeight + 1;
+      element.classList.toggle("is-cropped", overflows);
+    };
+
+    fit();
+
+    let observer: ResizeObserver | undefined;
+    if (typeof ResizeObserver !== "undefined") {
+      observer = new ResizeObserver(fit);
+      observer.observe(element);
+    }
+    const fonts = document.fonts;
+    if (fonts && fonts.status !== "loaded") {
+      fonts.ready.then(fit).catch(() => undefined);
+    }
+
+    return () => observer?.disconnect();
+  }, [photo.message]);
 
   return (
     <div className={`polaroid-shell ${showRays ? "polaroid-shell--favorite" : ""}`}>
@@ -61,6 +100,13 @@ export function Polaroid({
             )}
             <div className="polaroid-photo">
               <PhotoMedia photo={photo} tone={tone} reveal={reveal} lazy={lazy} />
+              {photo.border && photo.border !== "none" && (
+                <span
+                  className={`photo-border photo-border--${photo.border}`}
+                  style={{ opacity: Math.min(1, Math.max(0, (reveal - 0.55) / 0.35)) }}
+                  aria-hidden="true"
+                />
+              )}
               {photo.rank === 1 && reveal > 0.94 && (
                 <span className="photo-favorite-glow" aria-hidden="true" />
               )}
@@ -85,10 +131,16 @@ export function Polaroid({
           >
             <div className="polaroid-back__inner">
               <span className="polaroid-back__margin" aria-hidden="true" />
-              <p
-                className="polaroid-message handwritten"
-                style={{ "--back-font": `${backSize}px` } as CSSProperties}
-              >
+              {backStickers.map((symbol, index) => (
+                <span
+                  className={`polaroid-back__sticker polaroid-back__sticker--${index + 1}`}
+                  key={`${symbol}-${index}`}
+                  aria-hidden="true"
+                >
+                  {symbol}
+                </span>
+              ))}
+              <p className="polaroid-message handwritten" ref={messageRef}>
                 {photo.message}
               </p>
               <span className="polaroid-stamp">

@@ -61,6 +61,11 @@ export function DayCompleteScreen({ day, streak, onOpenAlbum }: DayCompleteScree
               <span className="complete-fan__photo">
                 <PhotoMedia photo={photo} tone="warm" lazy />
               </span>
+              {photo.sticker && (
+                <span className="complete-fan__sticker" aria-hidden="true">
+                  {photo.sticker}
+                </span>
+              )}
             </span>
           ))}
         </div>
