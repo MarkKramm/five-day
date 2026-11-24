@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { CSSProperties, PointerEvent as ReactPointerEvent } from "react";
+import type { PointerEvent as ReactPointerEvent } from "react";
 import { TIMING } from "../constants";
 import { readDayProgress } from "../lib/storage";
 import { sound } from "../lib/sound";
@@ -130,11 +130,7 @@ export function Album({
 
       <div className="album-book">
         {page > 0 && (
-          <span
-            className="album-ribbon"
-            aria-hidden="true"
-            style={{ "--page-index": page } as CSSProperties}
-          >
+          <span className="album-ribbon" aria-hidden="true">
             <span className="album-ribbon__tail" />
           </span>
         )}

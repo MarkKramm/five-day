@@ -4,7 +4,6 @@ import type { DayConfig, DayProgress, PhotoConfig } from "../types";
 import { PhotoMedia } from "../components/PhotoMedia";
 import { CameraGlyph } from "../components/Icons";
 import { PageDoodles } from "../components/PageDoodles";
-import { tapePattern } from "../lib/tape";
 
 const TILTS = [-3, 2, 1.5, -2, 0];
 
@@ -28,7 +27,6 @@ function MiniPolaroid({
   index: number;
   favorite: boolean;
 }) {
-  const pattern = tapePattern(photo.frame);
   return (
     <div
       className={`mini-shell ${favorite ? "mini-shell--favorite" : ""}`}
@@ -41,11 +39,11 @@ function MiniPolaroid({
         </div>
         <span className="mini-polaroid__strip" aria-hidden="true" />
         <span
-          className={`mini-tape mini-tape--left mini-tape--${pattern} tape-color-${index % 3}`}
+          className={`mini-tape mini-tape--left tape-color-${index % 3}`}
           aria-hidden="true"
         />
         <span
-          className={`mini-tape mini-tape--right mini-tape--${pattern} tape-color-${(index + 1) % 3}`}
+          className={`mini-tape mini-tape--right tape-color-${(index + 1) % 3}`}
           aria-hidden="true"
         />
         {favorite && (
