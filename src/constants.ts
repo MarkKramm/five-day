@@ -81,8 +81,10 @@ export const TIMING = {
   strokeReversalPx: 10,
   /** Caption typewriter after the final stroke. */
   captionWriteMs: 600,
-  /** Short beat showing the finished print before FRONT. */
-  developToFrontDelayMs: 1150,
+  /** The finished print holds this long so the emoji burst plays out. */
+  developToFrontDelayMs: 2000,
+  /** The same beat in ?fast=1 mode. */
+  fastDevelopToFrontDelayMs: 900,
   flipMs: 500,
   keepFlightMs: 600,
   pageSlideMs: 300,
