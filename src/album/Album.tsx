@@ -184,6 +184,7 @@ export function Album({
                     progress={readDayProgress(saved, entry.day.id)}
                     tone={config.photoTone}
                     active={page === index && !viewer}
+                    eager={index === page + 1 && !viewer}
                     onOpenPhoto={(rank) => openPhoto(entry.day as DayConfig, rank)}
                   />
                 )}
